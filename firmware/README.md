@@ -1,6 +1,6 @@
 # Firmware
 
-The firmware folder contains the embedded software for the FleetTracker device. It is structured as a modular C++ codebase rather than a single Arduino sketch.
+The firmware folder contains the embedded software for the GAS Smart Tracker device. It is structured as a modular C++ codebase rather than a single Arduino sketch.
 
 ## Source Layout
 

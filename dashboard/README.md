@@ -1,6 +1,6 @@
 # Dashboard
 
-The dashboard will provide the operator-facing web application for FleetTracker.
+The dashboard will provide the operator-facing web application for GAS Smart Tracker.
 
 ## Future Responsibilities
 
@@ -9,6 +9,8 @@ The dashboard will provide the operator-facing web application for FleetTracker.
 - Trip history.
 - Diagnostic data visualization.
 - Device management.
+- Customer, fleet, vehicle, and technician management.
+- Maintenance alert review.
 - User and organization administration.
 
-No dashboard implementation is included in Version 0.1.
+No dashboard implementation is included in Milestone 0.2.

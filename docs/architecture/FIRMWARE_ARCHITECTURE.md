@@ -2,7 +2,9 @@
 
 ## Architectural Intent
 
-FleetTracker firmware should remain modular as it grows from prototype to production. Each hardware-facing capability is isolated behind a dedicated module. The application layer coordinates modules but does not contain protocol details.
+GAS Smart Tracker firmware should remain modular as it grows from prototype to production. Each hardware-facing capability is isolated behind a dedicated module. The application layer coordinates modules but does not contain protocol details.
+
+The firmware exists to support a Groupe Auto Solus telematics product, not a generic tracker. Device data should eventually map cleanly to the product domain concepts documented in `docs/product/DATA_MODEL_DRAFT.md`.
 
 ## Layers
 
@@ -46,6 +48,28 @@ Responsible for firmware observability. Future responsibilities include log leve
 ### Utilities
 
 Responsible for shared helpers that do not own hardware, transport, or application state.
+
+## Business and Domain Concepts
+
+Firmware should emit data that can be associated with the following product concepts once backend integration exists:
+
+| Concept | Firmware Relevance |
+| --- | --- |
+| `customer_id` | Assigned by provisioning or backend association; not hard-coded in firmware. |
+| `fleet_id` | Assigned by backend association; used to group vehicle telemetry. |
+| `vehicle_id` | Assigned when a device is installed in a vehicle. |
+| `device_id` | Stable device identity used for provisioning and telemetry attribution. |
+| `technician_id` | Used by service workflows; firmware may receive it only through future commands or configuration. |
+| `service_interval` | Backend-owned maintenance rule; firmware may provide odometer, runtime, and diagnostic inputs. |
+| `maintenance_alert` | Usually backend-generated; firmware may contribute trigger data. |
+| `trip_event` | Firmware may eventually detect trip start, update, stop, and summary events. |
+| `battery_alert` | Firmware may generate or report low-voltage and power-state observations. |
+| `diagnostic_trouble_code` | OBD-II module may report active or stored DTCs. |
+| `gps_position` | GPS module provides normalized position and fix metadata. |
+| `ignition_state` | Derived from OBD-II, voltage, motion, or future dedicated input. |
+| `odometer_source` | Identifies whether odometer data is OBD-derived, GPS-estimated, manual, imported, or corrected. |
+
+Firmware should avoid embedding customer-specific business rules. Business rules belong in backend and product layers unless a device-local safety or reliability requirement demands local handling.
 
 ## Design Constraints
 

@@ -8,6 +8,13 @@
 - Create roadmap and milestone tracker.
 - Keep implementation hardware-neutral.
 
+## Phase 1.5: GAS Product Architecture
+
+- Position the product as GAS Smart Tracker by Groupe Auto Solus.
+- Define early commercial fleet service domain concepts.
+- Draft product purpose, target users, prototype goals, and commercial goals.
+- Draft early entities for customers, fleets, vehicles, devices, technicians, trips, telemetry events, maintenance alerts, and diagnostic codes.
+
 ## Phase 2: Firmware Build System and Coding Standards
 
 - Select firmware build environment.

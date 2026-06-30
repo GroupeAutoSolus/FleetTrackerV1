@@ -4,12 +4,14 @@
 
 | Folder | Responsibility |
 | --- | --- |
-| `firmware/` | Embedded C++ application for the FleetTracker device. |
+| `firmware/` | Embedded C++ application for the GAS Smart Tracker device. |
 | `backend/` | Cloud-side services for telemetry ingestion, storage, APIs, and command delivery. |
 | `dashboard/` | Web dashboard for fleet operators and administrators. |
 | `hardware/` | Hardware inventory, schematics, datasheets, wiring, and electrical design notes. |
 | `docs/` | Project architecture, roadmap, milestone, and decision documentation. |
 | `tests/` | Cross-project integration, system, and acceptance test assets. |
+| `tools/` | Project utilities, scripts, generators, and developer automation. |
+| `.github/` | Future GitHub workflows, issue templates, pull request templates, and automation. |
 
 ## Firmware Folders
 
@@ -67,6 +69,9 @@
 | `hardware/schematics/README.md` | Placeholder for wiring diagrams and schematic artifacts. |
 | `hardware/datasheets/README.md` | Placeholder for datasheets and vendor references. |
 | `docs/README.md` | Defines documentation folder responsibilities. |
+| `docs/JOURNAL.md` | Chronological project decisions and milestone notes. |
+| `docs/product/GAS_SMART_TRACKER_PRODUCT_SPEC.md` | Product purpose, users, prototype goals, commercial goals, telemetry scope, GAS-specific features, and V1 exclusions. |
+| `docs/product/DATA_MODEL_DRAFT.md` | Early draft of core GAS Smart Tracker product entities and domain identifiers. |
 | `docs/architecture/PROJECT_STRUCTURE.md` | Explains every folder and source file created in Version 0.1. |
 | `docs/architecture/FIRMWARE_ARCHITECTURE.md` | Defines firmware module boundaries and design principles. |
 | `docs/roadmap/DEVELOPMENT_ROADMAP.md` | Long-term development roadmap. |
@@ -75,3 +80,5 @@
 | `tests/firmware/.gitkeep` | Preserves system firmware test folder. |
 | `tests/backend/.gitkeep` | Preserves system backend test folder. |
 | `tests/dashboard/.gitkeep` | Preserves system dashboard test folder. |
+| `tools/README.md` | Defines the purpose of the tools folder. |
+| `.github/README.md` | Defines the purpose of future GitHub automation configuration. |

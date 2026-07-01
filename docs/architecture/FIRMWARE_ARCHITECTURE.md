@@ -18,7 +18,7 @@ The firmware exists to support a Groupe Auto Solus telematics product, not a gen
 
 ## Current Firmware Foundation
 
-Milestone 0.5 establishes the first compiled firmware foundation inside `firmware/FleetTrackerFirmware`:
+Phase 1 establishes the compiled firmware foundation inside `firmware/FleetTrackerFirmware`:
 
 | Component | Responsibility |
 | --- | --- |
@@ -29,6 +29,7 @@ Milestone 0.5 establishes the first compiled firmware foundation inside `firmwar
 | `Platform` | Owns direct Arduino timing calls through `millis()` and `delay()`. |
 | `Diagnostics` | Reports firmware version, device ID, uptime, free heap, reset reason, boot status, and module health summary. |
 | `ModuleManager` | Provides the future registration/update/status foundation for hardware and service modules. |
+| `StatusCode` | Provides lightweight shared status and error-code conventions. |
 
 ## Module Manager Foundation
 
@@ -39,8 +40,29 @@ Future firmware modules should support:
 - `GetName()`
 - `GetStatus()`
 - `GetLastError()`
+- `IsInitialized()`
 
-Milestone v0.6.0 adds the shared structure only. No hardware modules are registered yet, so the current module health summary reports that no hardware modules are registered.
+Milestone v0.7.0 hardens the shared structure only. No hardware modules are registered yet, so the current module health summary reports `registered_modules=0`.
+
+Module status summaries should include:
+
+- module name
+- status
+- last error
+- initialized yes/no
+
+## Status and Error Codes
+
+Firmware uses a lightweight `StatusCode` convention for module state and error placeholders:
+
+- `OK`
+- `WARNING`
+- `ERROR`
+- `NOT_INITIALIZED`
+- `TIMEOUT`
+- `HARDWARE_UNAVAILABLE`
+
+These codes are intentionally simple. Future modules may add more detailed error context, but the shared status vocabulary should remain small enough for serial logs, telemetry, and dashboard display.
 
 ## Module Boundaries
 
@@ -89,6 +111,21 @@ Platform also owns ESP32 framework calls needed by diagnostics, such as free hea
 ### Diagnostics
 
 Responsible for local device health reporting. Current diagnostics include firmware version, device ID, uptime in milliseconds, free heap memory, reset reason, boot status, and module status summary placeholder.
+
+Diagnostics also reports a volatile boot counter placeholder. It currently resets to `1` on each power cycle because persistent storage is not enabled yet. A future milestone will store a boot count in ESP32 NVS/flash after storage ownership and wear considerations are documented.
+
+### Watchdog Strategy
+
+The hardware watchdog is not enabled in Phase 1. Future watchdog work should:
+
+- keep watchdog setup inside the Platform layer,
+- feed the watchdog from Application after core services update successfully,
+- avoid feeding the watchdog from low-level modules directly,
+- log reset reason after watchdog-triggered resets,
+- expose watchdog state through Diagnostics,
+- use staged timeouts so modem, CAN, or vehicle-service stalls do not mask full firmware lockups.
+
+Watchdog behavior should be introduced after the module manager can distinguish degraded module health from application-level failure.
 
 ## Business and Domain Concepts
 

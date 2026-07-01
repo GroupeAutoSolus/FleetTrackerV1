@@ -25,6 +25,7 @@
 | `firmware/FleetTrackerFirmware/src/logging/` | Compiled Arduino logger and serial output ownership. |
 | `firmware/FleetTrackerFirmware/src/modules/` | Compiled Arduino module lifecycle interface and module manager foundation. |
 | `firmware/FleetTrackerFirmware/src/platform/` | Compiled Arduino platform abstraction for timing and future framework boundaries. |
+| `firmware/FleetTrackerFirmware/src/status/` | Compiled Arduino status/error code conventions. |
 | `firmware/src/` | Firmware implementation files. |
 | `firmware/src/app/` | Application lifecycle, orchestration, and top-level coordination. |
 | `firmware/src/modules/gps/` | GNSS acquisition, fix state, location, speed, heading, and time handling. |
@@ -56,6 +57,8 @@
 | `firmware/FleetTrackerFirmware/src/modules/ModuleManager.cpp` | Module manager placeholder implementation and health summary. |
 | `firmware/FleetTrackerFirmware/src/platform/Platform.h` | Platform abstraction interface for initialization, milliseconds, and delay. |
 | `firmware/FleetTrackerFirmware/src/platform/Platform.cpp` | Arduino-backed platform implementation. |
+| `firmware/FleetTrackerFirmware/src/status/StatusCode.h` | Shared firmware status/error code interface. |
+| `firmware/FleetTrackerFirmware/src/status/StatusCode.cpp` | Shared firmware status/error code string conversion. |
 | `firmware/BUILD.md` | Firmware compile, upload, monitor, and board configuration documentation. |
 | `firmware/include/FleetTracker/Application.hpp` | Public application lifecycle interface. |
 | `firmware/src/app/Application.cpp` | Application initialization and scheduler-loop placeholder. |

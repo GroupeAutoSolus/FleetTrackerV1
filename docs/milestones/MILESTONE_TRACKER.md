@@ -8,7 +8,7 @@
 | 0.4 | ESP32 firmware boot test | Compile the baseline firmware, upload it to ESP32 DevKit V1, and verify serial boot and heartbeat output. | Complete |
 | 0.5 | Firmware platform layer and logging foundation | Add Application, Platform, Logger, and Configuration foundation while keeping the Arduino entry point small. | Complete |
 | 0.6 | Diagnostics and module manager | Add diagnostics reporting and module manager foundation while staying in Phase 1. | Complete |
-| 0.7 | Telemetry module baseline | Implement initial GPS, modem, CAN, OBD-II, configuration, and logging behavior. | Planned |
+| 0.7 | Phase 1 hardening | Add status/error conventions, improved module status formatting, boot counter placeholder, watchdog planning, and clearer heartbeat diagnostics. | Complete |
 | 0.8 | Device-to-cloud prototype | Add API client, telemetry payload format, retry policy, and backend ingestion prototype. | Planned |
 | 0.9 | Backend and dashboard MVP | Store telemetry, show vehicle status, show latest location, and expose basic admin views. | Planned |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
@@ -83,5 +83,19 @@
 - Heartbeat logs include uptime, free heap memory, and module health summary placeholder.
 - Logger remains the only code that uses Serial directly.
 - Platform remains the only code that uses Arduino timing directly.
+- No SIM7600, GPS, LTE, CAN, OBD-II, backend, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.7 Acceptance Criteria
+
+- Firmware status/error code convention exists with `OK`, `WARNING`, `ERROR`, `NOT_INITIALIZED`, `TIMEOUT`, and `HARDWARE_UNAVAILABLE`.
+- Module status formatting includes module name, status, last error, initialized yes/no, and registered module count placeholder.
+- Boot counter placeholder exists without persistent storage.
+- Documentation explains future persistent boot count via ESP32 NVS/flash.
+- Documentation explains future watchdog strategy without enabling the hardware watchdog.
+- Heartbeat diagnostics are easier to read and include uptime, free heap, and module health.
+- Logger remains the only code that uses Serial directly.
+- Platform remains the only code that uses Arduino timing directly.
+- Application remains responsible for orchestration.
 - No SIM7600, GPS, LTE, CAN, OBD-II, backend, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.

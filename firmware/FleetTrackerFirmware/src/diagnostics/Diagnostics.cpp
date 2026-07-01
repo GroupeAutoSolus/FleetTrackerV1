@@ -10,7 +10,8 @@
 namespace {
 
 constexpr const char* kBootStatusOk = "OK";
-char logBuffer[96] = {};
+constexpr unsigned long kVolatileBootCounterPlaceholder = 1;
+char logBuffer[160] = {};
 
 void LogLabelValue(const char* label, const char* value)
 {
@@ -21,6 +22,18 @@ void LogLabelValue(const char* label, const char* value)
 void LogLabelValue(const char* label, unsigned long value)
 {
     std::snprintf(logBuffer, sizeof(logBuffer), "%s: %lu", label, value);
+    Logger::Info(logBuffer);
+}
+
+void LogKeyValue(const char* key, const char* value)
+{
+    std::snprintf(logBuffer, sizeof(logBuffer), "  %s=%s", key, value);
+    Logger::Info(logBuffer);
+}
+
+void LogKeyValue(const char* key, unsigned long value)
+{
+    std::snprintf(logBuffer, sizeof(logBuffer), "  %s=%lu", key, value);
     Logger::Info(logBuffer);
 }
 
@@ -40,18 +53,21 @@ const char* GetBootStatus()
 
 void LogBootReport()
 {
+    Logger::Info("Boot diagnostics:");
     LogLabelValue("Firmware version", Configuration::Current().firmwareVersion);
     LogLabelValue("Device ID", Configuration::Current().deviceId);
     LogLabelValue("Reset reason", Platform::ResetReason());
     LogLabelValue("Free heap bytes", Platform::FreeHeapBytes());
+    LogLabelValue("Boot count placeholder", kVolatileBootCounterPlaceholder);
     LogLabelValue("Boot status", GetBootStatus());
 }
 
 void LogHeartbeat()
 {
-    LogLabelValue("Uptime ms", Platform::Millis());
-    LogLabelValue("Free heap bytes", Platform::FreeHeapBytes());
-    LogLabelValue("Module health", ModuleManager::GetStatusSummary());
+    Logger::Info("Heartbeat diagnostics:");
+    LogKeyValue("uptime_ms", Platform::Millis());
+    LogKeyValue("free_heap_bytes", Platform::FreeHeapBytes());
+    LogKeyValue("module_health", ModuleManager::GetStatusSummary());
 }
 
 } // namespace Diagnostics

@@ -28,6 +28,8 @@ The Milestone 0.5 firmware:
 - Logs application initialization.
 - Prints `GAS Smart Tracker heartbeat` every 2 seconds.
 - Logs uptime, free heap, and module health placeholder with each heartbeat.
+- Uses lightweight status/error code placeholders for module health.
+- Includes a volatile boot counter placeholder.
 - Does not use SIM7600.
 - Does not use CAN.
 - Does not use OBD-II.

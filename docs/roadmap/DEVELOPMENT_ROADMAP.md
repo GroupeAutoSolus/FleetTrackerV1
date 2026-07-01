@@ -19,6 +19,8 @@
 - Use Arduino CLI with the ESP32 Arduino core as the initial firmware build environment.
 - Validate ESP32 compile, upload, and serial boot behavior.
 - Add Application, Platform, Logger, Configuration, Diagnostics, and Module Manager foundations.
+- Add lightweight status/error code conventions.
+- Add boot counter placeholder and watchdog strategy documentation.
 - Document current hardware inventory.
 - Keep hardware-specific modules out of scope until the foundation is stable.
 

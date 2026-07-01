@@ -3,7 +3,7 @@
 namespace {
 
 Configuration::Settings settings = {
-    "0.6.0",
+    "0.7.0",
     "GAS-ST-PROTOTYPE-001",
     2000,
     "",

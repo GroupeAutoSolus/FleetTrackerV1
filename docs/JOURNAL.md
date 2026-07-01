@@ -33,3 +33,9 @@ The firmware now logs boot, firmware version, platform initialization, configura
 Added Project Phases to documentation: Foundation, Communications, Vehicle, Backend, Dashboard, and Production. The project remains in Phase 1 - Foundation.
 
 Added Diagnostics and Module Manager foundations. Diagnostics reports firmware version, device ID, uptime, free heap memory, reset reason, boot status, and module health placeholder. Module Manager defines the future module lifecycle shape without registering hardware modules.
+
+## 2026-07-01 - Milestone v0.7.0: Phase 1 Hardening
+
+Added lightweight firmware status/error code conventions and improved Module Manager status formatting. Added a volatile boot counter placeholder and documented that persistent boot count should later use ESP32 NVS/flash.
+
+Documented future watchdog strategy without enabling hardware watchdog behavior. Improved heartbeat diagnostics formatting while keeping Serial access isolated to Logger and Arduino timing isolated to Platform.

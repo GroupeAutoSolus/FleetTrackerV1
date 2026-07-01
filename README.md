@@ -72,6 +72,7 @@ Current foundation services include:
 - Configuration
 - Diagnostics
 - Module Manager
+- Status/error code conventions
 
 Future hardware services include:
 
@@ -97,7 +98,7 @@ The module layout is described in [firmware/README.md](firmware/README.md) and [
 | Phase 5 - Dashboard | Operator UI, fleet views, vehicle detail pages, diagnostics, alerts, and technician workflows. |
 | Phase 6 - Production | Hardware hardening, provisioning, OTA, enclosure, certifications, manufacturing, and field operations. |
  
-Current phase: Phase 1 - Foundation.
+Current phase: Phase 1 - Foundation hardening. Hardware communication modules start in later phases.
 
 ## Planning Documents
 

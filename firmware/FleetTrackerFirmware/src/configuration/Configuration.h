@@ -3,7 +3,6 @@
 namespace Configuration {
 
 struct Settings {
-    const char* firmwareVersion;
     const char* deviceId;
     unsigned long heartbeatIntervalMs;
     const char* futureApn;

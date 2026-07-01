@@ -98,7 +98,9 @@ The module layout is described in [firmware/README.md](firmware/README.md) and [
 | Phase 5 - Dashboard | Operator UI, fleet views, vehicle detail pages, diagnostics, alerts, and technician workflows. |
 | Phase 6 - Production | Hardware hardening, provisioning, OTA, enclosure, certifications, manufacturing, and field operations. |
  
-Current phase: Phase 1 - Foundation hardening. Hardware communication modules start in later phases.
+Current phase: Phase 2 - Communications and external hardware validation.
+
+Milestone v0.9.0 introduces BuildInfo and the first external hardware module: MCP2515 SPI detection. This verifies ESP32-to-MCP2515 SPI communication only. It does not read CAN traffic, connect to a vehicle, or implement OBD-II.
 
 ## Planning Documents
 

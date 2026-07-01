@@ -35,3 +35,5 @@ Planned MCP2515 header mapping:
 | VCC | 5V or 3.3V pending hardware validation |
 
 Warning: do not physically wire MCP2515 VCC until the exact MCP2515 module voltage requirements and logic-level compatibility are verified. Some MCP2515 breakout boards are 5V modules and may not be safe for direct 3.3V ESP32 logic without level shifting or board-specific validation.
+
+See [docs/hardware/mcp2515/MCP2515_SPI_VALIDATION_CHECKLIST.md](../docs/hardware/mcp2515/MCP2515_SPI_VALIDATION_CHECKLIST.md) for the bench validation checklist.

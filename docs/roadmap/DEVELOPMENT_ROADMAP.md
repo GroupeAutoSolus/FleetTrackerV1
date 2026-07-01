@@ -27,6 +27,8 @@
 
 ## Phase 2 - Communications
 
+- Add BuildInfo firmware metadata.
+- Validate first external SPI hardware communication with MCP2515 controller.
 - Add LTE modem service boundaries.
 - Validate SIM7600 serial communication.
 - Validate SIM state, signal quality, network registration, and data sessions.

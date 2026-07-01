@@ -1,5 +1,8 @@
 #include "Application.h"
 
+#include <cstdio>
+
+#include "../build/BuildInfo.h"
 #include "../configuration/Configuration.h"
 #include "../diagnostics/Diagnostics.h"
 #include "../logging/Logger.h"
@@ -10,6 +13,13 @@
 namespace {
 
 unsigned long lastHeartbeatMs = 0;
+char bootLogBuffer[96] = {};
+
+void LogBuildField(const char* label, const char* value)
+{
+    std::snprintf(bootLogBuffer, sizeof(bootLogBuffer), "%-16s: %s", label, value);
+    Logger::Info(bootLogBuffer);
+}
 
 } // namespace
 
@@ -19,6 +29,16 @@ void Initialize()
 {
     Logger::Initialize();
     Logger::Info("GAS Smart Tracker booting...");
+    Logger::Info("--------------------------------------------------");
+    Logger::Info("GAS Smart Tracker");
+    LogBuildField("Firmware Version", BuildInfo::GetFirmwareVersion());
+    LogBuildField("Git Commit", BuildInfo::GetGitCommit());
+    LogBuildField("Build Date", BuildInfo::GetBuildDate());
+    LogBuildField("Build Time", BuildInfo::GetBuildTime());
+    LogBuildField("Board", BuildInfo::GetBoardName());
+    LogBuildField("Hardware", BuildInfo::GetHardwareName());
+    LogBuildField("Build Type", BuildInfo::GetBuildType());
+    Logger::Info("--------------------------------------------------");
 
     Platform::Initialize();
     Configuration::Load();
@@ -28,8 +48,9 @@ void Initialize()
     Logger::Info("Platform initialized");
     Logger::Info("Configuration loaded");
 
+    Logger::Info("Initializing SPI...");
     SpiService::Initialize();
-    Logger::Info("SPI service initialized");
+    Logger::Info("SPI initialized");
     Logger::Info(SpiService::GetPinConfigurationSummary());
 
     ModuleManager::Initialize();

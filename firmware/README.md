@@ -9,10 +9,14 @@ firmware/
   FleetTrackerFirmware/      Arduino CLI-compatible ESP32 firmware sketch.
   FleetTrackerFirmware/src/application/
                              Application lifecycle and update loop.
+  FleetTrackerFirmware/src/build/
+                             Firmware build metadata.
   FleetTrackerFirmware/src/configuration/
                              Firmware configuration placeholders.
   FleetTrackerFirmware/src/diagnostics/
                              Boot and runtime diagnostics reporting.
+  FleetTrackerFirmware/src/hardware/mcp2515/
+                             MCP2515 SPI detection module.
   FleetTrackerFirmware/src/logging/
                              Logger implementation and serial log ownership.
   FleetTrackerFirmware/src/modules/
@@ -49,9 +53,9 @@ firmware/
 
 ## Current Status
 
-Milestone v0.8.0 adds the SPI platform service foundation under `firmware/FleetTrackerFirmware`.
+Milestone v0.9.0 adds BuildInfo and the first external hardware module foundation under `firmware/FleetTrackerFirmware`.
 
-The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. Platform owns Arduino timing and ESP32 framework diagnostics calls, SpiService owns SPI bus initialization, Logger owns serial output, Configuration owns early firmware settings, Diagnostics owns boot/runtime health reporting, Module Manager owns future module lifecycle/status coordination, StatusCode owns shared status/error naming, and Application owns orchestration.
+The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. BuildInfo owns firmware build metadata. Platform owns Arduino timing and ESP32 framework diagnostics calls. SpiService owns SPI bus initialization. Logger owns serial output. Configuration owns early runtime settings. Diagnostics owns boot/runtime health reporting. Module Manager owns module lifecycle/status coordination. StatusCode owns shared status/error naming. Application owns orchestration.
 
 Default ESP32 SPI pin configuration:
 
@@ -65,6 +69,6 @@ The boot counter is currently a volatile placeholder. Persistent boot counting w
 
 The hardware watchdog is not enabled yet. Future watchdog work should live behind Platform and report state through Diagnostics.
 
-No MCP2515 driver logic, CAN frame handling, modem AT command, GNSS, LTE, or OBD-II behavior has been implemented yet.
+The MCP2515 module currently performs SPI controller detection only. No CAN frame reading, OBD-II, vehicle communication, modem AT command, GNSS, or LTE behavior has been implemented yet.
 
 See [BUILD.md](BUILD.md) for compile, upload, and monitor commands.

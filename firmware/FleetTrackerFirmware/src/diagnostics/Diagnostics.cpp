@@ -2,6 +2,7 @@
 
 #include <cstdio>
 
+#include "../build/BuildInfo.h"
 #include "../configuration/Configuration.h"
 #include "../logging/Logger.h"
 #include "../modules/ModuleManager.h"
@@ -54,7 +55,7 @@ const char* GetBootStatus()
 void LogBootReport()
 {
     Logger::Info("Boot diagnostics:");
-    LogLabelValue("Firmware version", Configuration::Current().firmwareVersion);
+    LogLabelValue("Firmware version", BuildInfo::GetFirmwareVersion());
     LogLabelValue("Device ID", Configuration::Current().deviceId);
     LogLabelValue("Reset reason", Platform::ResetReason());
     LogLabelValue("Free heap bytes", Platform::FreeHeapBytes());

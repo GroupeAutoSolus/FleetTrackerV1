@@ -20,8 +20,10 @@
 | `firmware/include/FleetTracker/` | Public module interfaces used across firmware components. |
 | `firmware/FleetTrackerFirmware/` | Arduino CLI-compatible sketch folder for the ESP32 DevKit V1 baseline firmware. |
 | `firmware/FleetTrackerFirmware/src/application/` | Compiled Arduino application lifecycle and update loop. |
+| `firmware/FleetTrackerFirmware/src/build/` | Compiled Arduino build metadata subsystem. |
 | `firmware/FleetTrackerFirmware/src/configuration/` | Compiled Arduino configuration placeholders. |
 | `firmware/FleetTrackerFirmware/src/diagnostics/` | Compiled Arduino diagnostics service for boot and runtime health reporting. |
+| `firmware/FleetTrackerFirmware/src/hardware/mcp2515/` | Compiled Arduino MCP2515 SPI detection module. |
 | `firmware/FleetTrackerFirmware/src/logging/` | Compiled Arduino logger and serial output ownership. |
 | `firmware/FleetTrackerFirmware/src/modules/` | Compiled Arduino module lifecycle interface and module manager foundation. |
 | `firmware/FleetTrackerFirmware/src/platform/` | Compiled Arduino platform abstraction for timing and future framework boundaries. |
@@ -47,10 +49,14 @@
 | `firmware/FleetTrackerFirmware/FleetTrackerFirmware.ino` | Minimal Arduino CLI sketch that delegates to `Application::Initialize()` and `Application::Update()`. |
 | `firmware/FleetTrackerFirmware/src/application/Application.h` | Application layer interface. |
 | `firmware/FleetTrackerFirmware/src/application/Application.cpp` | Application startup sequence and heartbeat update loop. |
+| `firmware/FleetTrackerFirmware/src/build/BuildInfo.h` | Firmware build metadata interface. |
+| `firmware/FleetTrackerFirmware/src/build/BuildInfo.cpp` | Firmware build metadata placeholder implementation. |
 | `firmware/FleetTrackerFirmware/src/configuration/Configuration.h` | Configuration settings interface and placeholder fields. |
 | `firmware/FleetTrackerFirmware/src/configuration/Configuration.cpp` | Current firmware configuration placeholder values. |
 | `firmware/FleetTrackerFirmware/src/diagnostics/Diagnostics.h` | Diagnostics service interface. |
 | `firmware/FleetTrackerFirmware/src/diagnostics/Diagnostics.cpp` | Boot report and heartbeat diagnostics logging. |
+| `firmware/FleetTrackerFirmware/src/hardware/mcp2515/Mcp2515Module.h` | MCP2515 hardware module interface. |
+| `firmware/FleetTrackerFirmware/src/hardware/mcp2515/Mcp2515Module.cpp` | SPI-only MCP2515 controller detection implementation. |
 | `firmware/FleetTrackerFirmware/src/logging/Logger.h` | Logger interface for info, warning, error, and debug messages. |
 | `firmware/FleetTrackerFirmware/src/logging/Logger.cpp` | Serial-backed logger implementation. |
 | `firmware/FleetTrackerFirmware/src/modules/Module.h` | Future firmware module lifecycle interface. |

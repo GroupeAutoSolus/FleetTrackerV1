@@ -24,6 +24,7 @@ Phase 1 establishes the compiled firmware foundation inside `firmware/FleetTrack
 | --- | --- |
 | `FleetTrackerFirmware.ino` | Minimal Arduino entry point that delegates to Application. |
 | `Application` | Calls initialization in order and runs the heartbeat update loop. |
+| `BuildInfo` | Owns firmware version, git commit placeholder, build date, build time, board name, hardware name, and build type. |
 | `Configuration` | Holds placeholder firmware settings such as firmware version, device ID, heartbeat interval, future APN, and future server URL. |
 | `Logger` | Owns all direct serial output through `Serial.begin`, `Serial.print`, and `Serial.println`. |
 | `Platform` | Owns direct Arduino timing calls through `millis()` and `delay()`. |
@@ -31,6 +32,7 @@ Phase 1 establishes the compiled firmware foundation inside `firmware/FleetTrack
 | `Diagnostics` | Reports firmware version, device ID, uptime, free heap, reset reason, boot status, and module health summary. |
 | `ModuleManager` | Provides the future registration/update/status foundation for hardware and service modules. |
 | `StatusCode` | Provides lightweight shared status and error-code conventions. |
+| `Mcp2515Module` | First hardware module. Performs SPI-only MCP2515 controller detection. |
 
 ## Module Manager Foundation
 
@@ -79,6 +81,8 @@ Responsible for modem lifecycle and cellular connectivity. Future responsibiliti
 
 Responsible for CAN frame transport. Future responsibilities include controller initialization, bitrate management, frame filtering, error counters, and receive buffering.
 
+Milestone v0.9.0 does not implement CAN frame transport. It only verifies that the ESP32 can communicate with the MCP2515 controller over SPI.
+
 ### OBD-II
 
 Responsible for vehicle diagnostic requests above CAN. Future responsibilities include PID requests, response parsing, timeouts, retry policy, supported PID discovery, and normalized vehicle telemetry.
@@ -122,6 +126,17 @@ Responsible for SPI bus initialization and pin configuration metadata. Current d
 | Future MCP2515 INT | GPIO4 |
 
 The SPI service does not implement MCP2515 driver logic, CAN frame handling, or OBD-II behavior. Those belong in later vehicle-phase modules after wiring and voltage compatibility are validated.
+
+### MCP2515 SPI Detection
+
+MCP2515 is the first hardware module managed by Module Manager. The current module only:
+
+- selects the configured SPI chip select pin,
+- sends an MCP2515 reset command,
+- reads the MCP2515 CANSTAT register,
+- reports detected or not detected.
+
+It does not read CAN frames, configure CAN bitrates, connect to a vehicle, or implement OBD-II.
 
 ### Diagnostics
 

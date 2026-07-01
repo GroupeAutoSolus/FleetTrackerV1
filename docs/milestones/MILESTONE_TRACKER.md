@@ -10,7 +10,7 @@
 | 0.6 | Diagnostics and module manager | Add diagnostics reporting and module manager foundation while staying in Phase 1. | Complete |
 | 0.7 | Phase 1 hardening | Add status/error conventions, improved module status formatting, boot counter placeholder, watchdog planning, and clearer heartbeat diagnostics. | Complete |
 | 0.8 | SPI platform service foundation | Add SPI abstraction, default ESP32 SPI pin configuration, and MCP2515 wiring documentation without CAN logic. | Complete |
-| 0.9 | Backend and dashboard MVP | Store telemetry, show vehicle status, show latest location, and expose basic admin views. | Planned |
+| 0.9 | First external hardware detection | Add BuildInfo and verify ESP32-to-MCP2515 SPI communication without CAN frame reading. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
 ## Version 0.1 Acceptance Criteria
@@ -111,4 +111,16 @@
 - Logger remains the only code that uses Serial directly.
 - Platform remains the owner of Arduino timing calls.
 - No MCP2515 driver logic, CAN frame reading, OBD-II, SIM7600, GPS, LTE, backend, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.9 Acceptance Criteria
+
+- BuildInfo subsystem exists.
+- Startup logs include firmware version, git commit placeholder, build date, build time, board, hardware, and build type.
+- Previous hardcoded firmware version is removed from Configuration.
+- MCP2515 is managed as the first hardware module in Module Manager.
+- MCP2515 SPI detection attempts controller communication.
+- Firmware continues running whether detection succeeds or fails.
+- Hardware validation checklist documents operating voltage, logic compatibility, SPI wiring, and common ground.
+- No CAN frame reading, OBD-II, vehicle communication, SIM7600, GPS, LTE, backend, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.

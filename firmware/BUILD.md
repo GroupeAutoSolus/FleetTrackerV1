@@ -20,6 +20,7 @@ The current firmware:
 
 - Initializes serial output at `115200`.
 - Prints `GAS Smart Tracker booting...` once during startup.
+- Prints BuildInfo metadata.
 - Logs the firmware version.
 - Logs platform initialization.
 - Logs configuration loading.
@@ -27,13 +28,14 @@ The current firmware:
 - Logs diagnostics initialization.
 - Logs SPI service initialization.
 - Logs SPI pin configuration.
+- Attempts MCP2515 SPI detection through the Module Manager.
 - Logs application initialization.
 - Prints `GAS Smart Tracker heartbeat` every 2 seconds.
 - Logs uptime, free heap, and module health placeholder with each heartbeat.
 - Uses lightweight status/error code placeholders for module health.
 - Includes a volatile boot counter placeholder.
 - Does not use SIM7600.
-- Does not include MCP2515 driver logic.
+- Does not read CAN frames.
 - Does not use CAN.
 - Does not use OBD-II.
 - Does not use GPS or LTE services.

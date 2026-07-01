@@ -3,6 +3,8 @@
 #include <SPI.h>
 #include <cstdio>
 
+#include "../Platform.h"
+
 namespace {
 
 constexpr SpiService::PinConfiguration kDefaultPins = {
@@ -46,6 +48,11 @@ const PinConfiguration& GetPinConfiguration()
 const char* GetPinConfigurationSummary()
 {
     return pinSummary;
+}
+
+void DelayAfterPeripheralReset()
+{
+    Platform::Delay(10);
 }
 
 } // namespace SpiService

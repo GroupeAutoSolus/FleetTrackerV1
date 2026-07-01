@@ -9,3 +9,7 @@ Future documents may include:
 - Automotive protection requirements.
 - Prototype test procedures.
 - Production hardware requirements.
+
+## Current Hardware Validation Notes
+
+- [MCP2515 SPI Validation Checklist](mcp2515/MCP2515_SPI_VALIDATION_CHECKLIST.md)

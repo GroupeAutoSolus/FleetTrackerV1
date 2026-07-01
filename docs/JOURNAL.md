@@ -45,3 +45,9 @@ Documented future watchdog strategy without enabling hardware watchdog behavior.
 Added a clean SPI platform service foundation before MCP2515-specific CAN work. The SPI service initializes the ESP32 SPI bus and reports the default pin configuration: SCK GPIO18, MISO/SO GPIO19, MOSI/SI GPIO23, CS GPIO5, and future MCP2515 INT GPIO4.
 
 Documented the planned MCP2515 header mapping and added a hardware warning that VCC and logic-level compatibility must be validated before wiring. No MCP2515 driver logic, CAN frame handling, OBD-II, SIM7600, GPS, LTE, backend, or dashboard behavior was added.
+
+## 2026-07-01 - Milestone v0.9.0: First External Hardware Detection
+
+Phase 2 begins with BuildInfo and MCP2515 SPI detection. BuildInfo now owns firmware build metadata including firmware version, git commit placeholder, build date, build time, board, hardware, and build type.
+
+MCP2515 is registered as the first hardware module under Module Manager. The module performs SPI-only controller detection and reports success or failure without reading CAN frames, connecting to a vehicle, or implementing OBD-II.

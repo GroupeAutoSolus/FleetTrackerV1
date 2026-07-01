@@ -13,5 +13,6 @@ struct PinConfiguration {
 void Initialize();
 const PinConfiguration& GetPinConfiguration();
 const char* GetPinConfigurationSummary();
+void DelayAfterPeripheralReset();
 
 } // namespace SpiService

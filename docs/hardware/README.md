@@ -12,4 +12,5 @@ Future documents may include:
 
 ## Current Hardware Validation Notes
 
+- [Hardware Revisions](HARDWARE_REVISIONS.md)
 - [MCP2515 SPI Validation Checklist](mcp2515/MCP2515_SPI_VALIDATION_CHECKLIST.md)

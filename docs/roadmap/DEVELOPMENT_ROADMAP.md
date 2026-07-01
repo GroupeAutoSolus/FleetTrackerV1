@@ -6,7 +6,7 @@
 | --- | --- |
 | Phase 1 - Foundation | Firmware structure, build system, logging, diagnostics, module manager, project documentation, and development workflow. |
 | Phase 2 - Communications | LTE modem, network registration, data sessions, API transport, command polling, and connectivity recovery. |
-| Phase 3 - Vehicle | CAN bus, OBD-II, vehicle telemetry, diagnostic trouble codes, ignition state, trip events, and odometer sources. |
+| Phase 3 - Vehicle | ESP32 TWAI, SN65HVD230 CAN transceiver, OBD-II, vehicle telemetry, diagnostic trouble codes, ignition state, trip events, and odometer sources. |
 | Phase 4 - Backend | Telemetry ingestion, device identity, customer/fleet/vehicle records, command delivery, and alert processing. |
 | Phase 5 - Dashboard | Operator UI, fleet views, vehicle details, diagnostics, alerts, and technician workflows. |
 | Phase 6 - Production | Hardware hardening, provisioning, OTA, enclosure, certifications, manufacturing, support, and field operations. |
@@ -28,7 +28,7 @@
 ## Phase 2 - Communications
 
 - Add BuildInfo firmware metadata.
-- Validate first external SPI hardware communication with MCP2515 controller.
+- Keep MCP2515 limited to deprecated Revision A bench experiments unless explicitly revisited.
 - Add LTE modem service boundaries.
 - Validate SIM7600 serial communication.
 - Validate SIM state, signal quality, network registration, and data sessions.
@@ -37,9 +37,8 @@
 
 ## Phase 3 - Vehicle
 
-- Validate MCP2515 voltage compatibility and wiring.
-- Add CAN bus service boundaries.
-- Validate MCP2515 communication.
+- Validate SN65HVD230 wiring and ESP32 TWAI configuration.
+- Add CAN bus service boundaries around ESP32 TWAI.
 - Add OBD-II service boundaries.
 - Read selected vehicle PIDs in controlled tests.
 - Add diagnostic trouble code, ignition state, trip event, and odometer source handling.

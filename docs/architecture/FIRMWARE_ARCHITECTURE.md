@@ -2,7 +2,7 @@
 
 ## Architectural Intent
 
-GAS Smart Tracker firmware should remain modular as it grows from prototype to production. Each hardware-facing capability is isolated behind a dedicated module. The application layer coordinates modules but does not contain protocol details.
+GAS Smart Tracker firmware should remain modular as it grows from prototype to production. FleetLink is the physical in-vehicle telematics device that runs this firmware. Each hardware-facing capability is isolated behind a dedicated module. The application layer coordinates modules but does not contain protocol details.
 
 The firmware exists to support a Groupe Auto Solus telematics product, not a generic tracker. Device data should eventually map cleanly to the product domain concepts documented in `docs/product/DATA_MODEL_DRAFT.md`.
 
@@ -82,7 +82,9 @@ Responsible for modem lifecycle and cellular connectivity. Future responsibiliti
 
 Responsible for CAN frame transport. Future responsibilities include controller initialization, bitrate management, frame filtering, error counters, and receive buffering.
 
-Milestone v0.9.0 does not implement CAN frame transport. It only verifies that the ESP32 can communicate with the MCP2515 controller over SPI.
+Engineering decision: the main ESP32 vehicle CAN path will use ESP32 built-in TWAI plus SN65HVD230, not MCP2515.
+
+MCP2515 is deprecated for the main ESP32 prototype CAN path because many MCP2515 + TJA1050 modules are 5V-oriented and may create logic-level compatibility risk with ESP32 3.3V GPIO. Existing MCP2515 work remains useful only as a controlled Revision A bench SPI experiment.
 
 ### OBD-II
 
@@ -130,7 +132,7 @@ The SPI service does not implement MCP2515 driver logic, CAN frame handling, or 
 
 ### MCP2515 SPI Detection
 
-MCP2515 is the first hardware module managed by Module Manager. The current module only:
+MCP2515 is the first external hardware module managed by Module Manager, but it is deprecated for the main FleetLink vehicle CAN path. The current module only:
 
 - selects the configured SPI chip select pin,
 - sends an MCP2515 reset command,

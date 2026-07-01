@@ -1,8 +1,12 @@
 # GAS Smart Tracker
 
-GAS Smart Tracker is a custom telematics device and platform by Groupe Auto Solus for commercial fleet service customers in Québec.
+GAS Smart Tracker is a custom telematics product initiative by Groupe Auto Solus for commercial fleet service customers in Québec.
 
-The project starts with an ESP32-based prototype and is organized so the firmware, backend, dashboard, hardware documentation, and tests can evolve toward production without a major restructure.
+FleetTracker is the broader platform: firmware, backend, dashboard, mobile tools, and the fleet management system.
+
+FleetLink is the physical in-vehicle telematics device installed in a vehicle.
+
+The project starts with an ESP32-based FleetLink prototype and is organized so the firmware, backend, dashboard, hardware documentation, and tests can evolve toward production without a major restructure.
 
 The product direction is no longer a generic fleet tracker. GAS Smart Tracker is being designed around the operating needs of Groupe Auto Solus, a mobile mechanic and fleet service business. The long-term goal is to support customer fleet visibility, proactive maintenance, diagnostic insight, and technician workflows.
 
@@ -46,7 +50,8 @@ See [docs/product/GAS_SMART_TRACKER_PRODUCT_SPEC.md](docs/product/GAS_SMART_TRAC
 
 - ESP32 Development Board
 - Waveshare SIM7600G-H 4G LTE + GNSS HAT
-- MCP2515 CAN Bus Module
+- MCP2515 CAN Bus Module, deprecated for the main ESP32 vehicle CAN path
+- SN65HVD230 CAN transceiver, planned for the preferred ESP32 TWAI CAN path
 - OBD-II male breakout cable
 - 5V automotive buck converter
 - Breadboard
@@ -100,7 +105,7 @@ The module layout is described in [firmware/README.md](firmware/README.md) and [
  
 Current phase: Phase 2 - Communications and external hardware validation.
 
-Milestone v0.10.0 prepares MCP2515 electrical validation. The firmware can retry SPI detection and continue booting if the module is missing or unpowered. It does not read CAN traffic, connect to a vehicle, or implement OBD-II.
+Milestone v0.10.1 updates naming and hardware direction. GAS Smart Tracker is the product initiative, FleetTracker is the broader platform, and FleetLink is the physical in-vehicle device. The main ESP32 vehicle CAN path is now ESP32 built-in TWAI plus SN65HVD230; MCP2515 is deprecated for that path due to 5V logic compatibility risk.
 
 ## Planning Documents
 
@@ -112,6 +117,7 @@ Milestone v0.10.0 prepares MCP2515 electrical validation. The firmware can retry
 - [Development Roadmap](docs/roadmap/DEVELOPMENT_ROADMAP.md)
 - [Milestone Tracker](docs/milestones/MILESTONE_TRACKER.md)
 - [Hardware Inventory](hardware/inventory/HARDWARE_INVENTORY.md)
+- [Hardware Revisions](docs/hardware/HARDWARE_REVISIONS.md)
 - [Project Structure](docs/architecture/PROJECT_STRUCTURE.md)
 
 ## Milestone 0.1 Scope

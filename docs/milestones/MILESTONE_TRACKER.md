@@ -12,6 +12,7 @@
 | 0.8 | SPI platform service foundation | Add SPI abstraction, default ESP32 SPI pin configuration, and MCP2515 wiring documentation without CAN logic. | Complete |
 | 0.9 | First external hardware detection | Add BuildInfo and verify ESP32-to-MCP2515 SPI communication without CAN frame reading. | Complete |
 | 0.10 | MCP2515 electrical validation | Harden MCP2515 SPI detection with retry logic and detailed electrical validation logs before applying VCC. | Complete |
+| 0.10.1 | FleetLink naming and hardware revision update | Introduce FleetLink device naming, document hardware revisions, and choose ESP32 TWAI + SN65HVD230 for the main CAN path. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
 ## Version 0.1 Acceptance Criteria
@@ -136,3 +137,16 @@
 - MCP2515 is not required to be present or powered.
 - No CAN functionality, OBD-II, SIM7600, GPS, LTE, backend, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.10.1 Acceptance Criteria
+
+- Documentation introduces FleetLink as the physical in-vehicle telematics device.
+- Documentation clarifies FleetTracker as the broader platform.
+- Documentation clarifies GAS Smart Tracker as the product initiative.
+- Hardware revisions are documented:
+  - Revision A: ESP32 + MCP2515 + SIM7600 + buck converter.
+  - Revision B: ESP32 + SN65HVD230 + SIM7600 + buck converter.
+  - Revision C: future custom PCB.
+- Engineering decision is documented: use ESP32 built-in TWAI + SN65HVD230 instead of MCP2515 for the main vehicle CAN path.
+- MCP2515 is marked deprecated for the ESP32 prototype main CAN path due to 5V logic compatibility risk.
+- No firmware behavior, SIM7600 code, or CAN code has been added.

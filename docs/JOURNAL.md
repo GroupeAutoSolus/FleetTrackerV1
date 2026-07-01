@@ -57,3 +57,11 @@ MCP2515 is registered as the first hardware module under Module Manager. The mod
 Prepared the MCP2515 detection path for bench validation once VCC is connected. Detection now attempts communication three times, logs each attempt, logs CANSTAT debug values, and reports SPI initialization failure, timeout, not responding, or unknown device conditions.
 
 The firmware continues booting if MCP2515 detection fails, so the module is not required to be present or powered. No CAN frame reading, OBD-II, SIM7600, GPS, LTE, backend, or dashboard behavior was added.
+
+## 2026-07-01 - Milestone v0.10.1: FleetLink Naming and Hardware Revision Update
+
+Introduced FleetLink as the physical in-vehicle telematics device name. FleetTracker now refers to the broader platform, including firmware, backend, dashboard, mobile tools, and fleet management system. GAS Smart Tracker remains the product initiative for Groupe Auto Solus.
+
+Documented FleetLink hardware revisions. Revision A uses ESP32 + MCP2515 + SIM7600 + buck converter. Revision B uses ESP32 + SN65HVD230 + SIM7600 + buck converter. Revision C is a future custom PCB.
+
+Documented the engineering decision to use ESP32 built-in TWAI plus SN65HVD230 instead of MCP2515 for the main vehicle CAN path. MCP2515 is deprecated for the ESP32 prototype main CAN path due to 5V logic compatibility risk.

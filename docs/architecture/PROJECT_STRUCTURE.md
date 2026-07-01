@@ -19,6 +19,10 @@
 | --- | --- |
 | `firmware/include/FleetTracker/` | Public module interfaces used across firmware components. |
 | `firmware/FleetTrackerFirmware/` | Arduino CLI-compatible sketch folder for the ESP32 DevKit V1 baseline firmware. |
+| `firmware/FleetTrackerFirmware/src/application/` | Compiled Arduino application lifecycle and update loop. |
+| `firmware/FleetTrackerFirmware/src/configuration/` | Compiled Arduino configuration placeholders. |
+| `firmware/FleetTrackerFirmware/src/logging/` | Compiled Arduino logger and serial output ownership. |
+| `firmware/FleetTrackerFirmware/src/platform/` | Compiled Arduino platform abstraction for timing and future framework boundaries. |
 | `firmware/src/` | Firmware implementation files. |
 | `firmware/src/app/` | Application lifecycle, orchestration, and top-level coordination. |
 | `firmware/src/modules/gps/` | GNSS acquisition, fix state, location, speed, heading, and time handling. |
@@ -36,7 +40,15 @@
 | File | Responsibility |
 | --- | --- |
 | `firmware/src/main.cpp` | Minimal firmware entry point that delegates work to `Application`. |
-| `firmware/FleetTrackerFirmware/FleetTrackerFirmware.ino` | Minimal Arduino CLI sketch that initializes serial output and prints a heartbeat. |
+| `firmware/FleetTrackerFirmware/FleetTrackerFirmware.ino` | Minimal Arduino CLI sketch that delegates to `Application::Initialize()` and `Application::Update()`. |
+| `firmware/FleetTrackerFirmware/src/application/Application.h` | Application layer interface. |
+| `firmware/FleetTrackerFirmware/src/application/Application.cpp` | Application startup sequence and heartbeat update loop. |
+| `firmware/FleetTrackerFirmware/src/configuration/Configuration.h` | Configuration settings interface and placeholder fields. |
+| `firmware/FleetTrackerFirmware/src/configuration/Configuration.cpp` | Current firmware configuration placeholder values. |
+| `firmware/FleetTrackerFirmware/src/logging/Logger.h` | Logger interface for info, warning, error, and debug messages. |
+| `firmware/FleetTrackerFirmware/src/logging/Logger.cpp` | Serial-backed logger implementation. |
+| `firmware/FleetTrackerFirmware/src/platform/Platform.h` | Platform abstraction interface for initialization, milliseconds, and delay. |
+| `firmware/FleetTrackerFirmware/src/platform/Platform.cpp` | Arduino-backed platform implementation. |
 | `firmware/BUILD.md` | Firmware compile, upload, monitor, and board configuration documentation. |
 | `firmware/include/FleetTracker/Application.hpp` | Public application lifecycle interface. |
 | `firmware/src/app/Application.cpp` | Application initialization and scheduler-loop placeholder. |

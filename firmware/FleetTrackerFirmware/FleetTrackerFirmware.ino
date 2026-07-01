@@ -1,24 +1,11 @@
-constexpr unsigned long kHeartbeatIntervalMs = 2000;
-
-unsigned long lastHeartbeatMs = 0;
+#include "src/application/Application.h"
 
 void setup()
 {
-    Serial.begin(115200);
-
-    while (!Serial && millis() < 3000) {
-        delay(10);
-    }
-
-    Serial.println("GAS Smart Tracker booting...");
+    Application::Initialize();
 }
 
 void loop()
 {
-    const unsigned long nowMs = millis();
-
-    if (nowMs - lastHeartbeatMs >= kHeartbeatIntervalMs) {
-        lastHeartbeatMs = nowMs;
-        Serial.println("GAS Smart Tracker heartbeat");
-    }
+    Application::Update();
 }

@@ -6,6 +6,15 @@ The firmware folder contains the embedded software for the GAS Smart Tracker dev
 
 ```text
 firmware/
+  FleetTrackerFirmware/      Arduino CLI-compatible ESP32 firmware sketch.
+  FleetTrackerFirmware/src/application/
+                             Application lifecycle and update loop.
+  FleetTrackerFirmware/src/configuration/
+                             Firmware configuration placeholders.
+  FleetTrackerFirmware/src/logging/
+                             Logger implementation and serial log ownership.
+  FleetTrackerFirmware/src/platform/
+                             Arduino/ESP32 timing abstraction.
   include/FleetTracker/      Public firmware interfaces shared across modules.
   src/app/                   Application orchestration and lifecycle ownership.
   src/modules/gps/           GNSS position, time, and fix-state module.
@@ -27,11 +36,15 @@ firmware/
 - Modules should be testable without physical hardware where practical.
 - Configuration should be centralized and explicit.
 - Logging should be available to all modules without coupling them to a transport.
+- No module except Logger may call `Serial.print`, `Serial.println`, or `Serial.begin` directly.
+- No module outside Platform should call Arduino `delay()` or `millis()` directly.
 
 ## Current Status
 
-Milestone 0.3 adds an Arduino CLI-compatible baseline sketch under `firmware/FleetTrackerFirmware`.
+Milestone 0.5 adds the first firmware foundation layer under `firmware/FleetTrackerFirmware`.
 
-The baseline sketch only initializes serial output and prints a heartbeat. No GPIO, SPI, CAN, modem AT command, GNSS, or OBD-II behavior has been implemented yet.
+The Arduino `.ino` entry point now delegates to `Application::Initialize()` and `Application::Update()`. Platform owns Arduino timing calls, Logger owns serial output, Configuration owns early firmware settings, and Application owns startup sequencing and heartbeat scheduling.
+
+No GPIO, SPI, CAN, modem AT command, GNSS, LTE, or OBD-II behavior has been implemented yet.
 
 See [BUILD.md](BUILD.md) for compile, upload, and monitor commands.

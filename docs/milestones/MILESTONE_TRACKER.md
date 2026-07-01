@@ -6,7 +6,7 @@
 | 0.2 | GAS product architecture update | Position product as GAS Smart Tracker, add product spec, data model draft, journal, tools folder, and GitHub placeholder folder. | Complete |
 | 0.3 | Firmware build baseline | Use Arduino CLI with ESP32 Arduino core, add setup docs, add minimal serial heartbeat sketch, and add helper scripts. | Complete |
 | 0.4 | ESP32 firmware boot test | Compile the baseline firmware, upload it to ESP32 DevKit V1, and verify serial boot and heartbeat output. | Complete |
-| 0.5 | Platform abstraction | Define platform interfaces for serial, SPI, GPIO, timers, storage, and watchdog. | Planned |
+| 0.5 | Firmware platform layer and logging foundation | Add Application, Platform, Logger, and Configuration foundation while keeping the Arduino entry point small. | Complete |
 | 0.6 | Hardware bring-up | Validate ESP32, SIM7600G-H, GNSS, MCP2515, and power wiring on the bench. | Planned |
 | 0.7 | Telemetry module baseline | Implement initial GPS, modem, CAN, OBD-II, configuration, and logging behavior. | Planned |
 | 0.8 | Device-to-cloud prototype | Add API client, telemetry payload format, retry policy, and backend ingestion prototype. | Planned |
@@ -59,3 +59,16 @@
 - Serial monitor at `115200` shows `GAS Smart Tracker booting...`.
 - Serial monitor shows `GAS Smart Tracker heartbeat` every 2 seconds.
 - No SIM7600, CAN, or OBD-II code has been added.
+
+## Version 0.5 Acceptance Criteria
+
+- Firmware is organized into Application, Service, Platform, Arduino Framework, and ESP32 Hardware layers.
+- Main Arduino sketch remains small and delegates to Application.
+- `Platform::Initialize()`, `Platform::Millis()`, and `Platform::Delay(milliseconds)` exist.
+- `Logger::Initialize()`, `Logger::Info()`, `Logger::Warn()`, `Logger::Error()`, and `Logger::Debug()` exist.
+- Only Logger directly calls `Serial.begin`, `Serial.print`, or `Serial.println`.
+- Application exposes `Application::Initialize()` and `Application::Update()`.
+- Configuration includes placeholders for firmware version, device ID, heartbeat interval, future APN, and future server URL.
+- Firmware logs boot, firmware version, platform initialization, configuration loading, application initialization, and heartbeat messages.
+- No SIM7600, CAN, OBD-II, GPS, LTE, backend, or dashboard code has been added.
+- Firmware compiles successfully with the existing helper script.

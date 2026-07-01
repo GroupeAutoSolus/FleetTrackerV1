@@ -1,6 +1,6 @@
 # Firmware Build
 
-GAS Smart Tracker firmware uses Arduino CLI with the ESP32 Arduino core for Milestone 0.3.
+GAS Smart Tracker firmware uses Arduino CLI with the ESP32 Arduino core.
 
 ## Current Target
 
@@ -14,16 +14,21 @@ GAS Smart Tracker firmware uses Arduino CLI with the ESP32 Arduino core for Mile
 | Serial baud rate | `115200` |
 | Sketch path | `firmware/FleetTrackerFirmware` |
 
-## Minimal Firmware Behavior
+## Firmware Behavior
 
-The Milestone 0.3 sketch:
+The Milestone 0.5 firmware:
 
 - Initializes serial output at `115200`.
 - Prints `GAS Smart Tracker booting...` once during startup.
+- Logs the firmware version.
+- Logs platform initialization.
+- Logs configuration loading.
+- Logs application initialization.
 - Prints `GAS Smart Tracker heartbeat` every 2 seconds.
 - Does not use SIM7600.
 - Does not use CAN.
 - Does not use OBD-II.
+- Does not use GPS or LTE services.
 - Does not require external hardware.
 
 ## Compile

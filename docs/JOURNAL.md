@@ -21,3 +21,9 @@ Added manual Arduino CLI setup documentation, firmware build documentation, a mi
 macOS detects the ESP32 DevKit V1 on `/dev/cu.usbserial-0001`. The boot-test milestone verifies that the Arduino CLI configuration can compile and upload the baseline firmware, then confirms serial boot and heartbeat output at `115200` baud.
 
 Validation completed successfully with Arduino CLI. The firmware compiled, uploaded to the ESP32, and serial output showed `GAS Smart Tracker booting...` followed by repeated `GAS Smart Tracker heartbeat` messages.
+
+## 2026-07-01 - Milestone 0.5: Firmware Platform Layer and Logging Foundation
+
+Refactored the Arduino firmware entry point into a small delegating sketch. Added Application, Platform, Logger, and Configuration foundation files under the Arduino CLI sketch source tree.
+
+The firmware now logs boot, firmware version, platform initialization, configuration loading, application initialization, and heartbeat messages through Logger. Platform owns Arduino timing calls. No SIM7600, CAN, OBD-II, GPS, LTE, backend, or dashboard behavior was added.

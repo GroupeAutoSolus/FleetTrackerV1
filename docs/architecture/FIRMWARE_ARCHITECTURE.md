@@ -10,10 +10,23 @@ The firmware exists to support a Groupe Auto Solus telematics product, not a gen
 
 | Layer | Responsibility |
 | --- | --- |
-| Application | Owns startup order, runtime loop, scheduling policy, and high-level state transitions. |
-| Services / Modules | GPS, LTE modem, CAN bus, OBD-II, API client, configuration, logging, and utilities. |
-| Hardware Adapters | Future layer for UART, SPI, GPIO, timers, storage, and watchdog integrations. |
-| Platform | Future ESP32 framework integration such as ESP-IDF, Arduino core, or PlatformIO environment. |
+| Application Layer | Owns startup order, update loop, scheduling policy, and high-level state transitions. |
+| Service Layer | Future GPS, LTE modem, CAN bus, OBD-II, API client, configuration, logging, and utility services. |
+| Platform Layer | Owns framework-facing primitives such as timing, delays, serial ownership boundaries, storage, and future watchdog access. |
+| Arduino Framework | ESP32 Arduino core used by the current prototype build. |
+| ESP32 Hardware | ESP32 DevKit V1 / ESP32-WROOM-32 prototype board. |
+
+## Current Firmware Foundation
+
+Milestone 0.5 establishes the first compiled firmware foundation inside `firmware/FleetTrackerFirmware`:
+
+| Component | Responsibility |
+| --- | --- |
+| `FleetTrackerFirmware.ino` | Minimal Arduino entry point that delegates to Application. |
+| `Application` | Calls initialization in order and runs the heartbeat update loop. |
+| `Configuration` | Holds placeholder firmware settings such as firmware version, device ID, heartbeat interval, future APN, and future server URL. |
+| `Logger` | Owns all direct serial output through `Serial.begin`, `Serial.print`, and `Serial.println`. |
+| `Platform` | Owns direct Arduino timing calls through `millis()` and `delay()`. |
 
 ## Module Boundaries
 
@@ -45,9 +58,17 @@ Responsible for configuration ownership. Future responsibilities include default
 
 Responsible for firmware observability. Future responsibilities include log levels, structured messages, serial output, remote diagnostic upload, and crash breadcrumbs.
 
+Current rule: no module except Logger may call `Serial.print`, `Serial.println`, or `Serial.begin` directly.
+
 ### Utilities
 
 Responsible for shared helpers that do not own hardware, transport, or application state.
+
+### Platform
+
+Responsible for framework boundary functions. Current functions are `Platform::Initialize()`, `Platform::Millis()`, and `Platform::Delay(milliseconds)`.
+
+Current rule: no module outside Platform should call Arduino `delay()` or `millis()` directly.
 
 ## Business and Domain Concepts
 

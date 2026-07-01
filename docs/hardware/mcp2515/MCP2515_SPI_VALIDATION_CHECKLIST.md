@@ -1,6 +1,6 @@
 # MCP2515 SPI Validation Checklist
 
-Milestone v0.9.0 verifies SPI communication between the ESP32 DevKit V1 and the MCP2515 controller only.
+Milestone v0.10.0 prepares electrical validation for SPI communication between the ESP32 DevKit V1 and the MCP2515 controller.
 
 This milestone does not read CAN frames, does not connect to a vehicle, and does not implement OBD-II.
 
@@ -30,11 +30,13 @@ This milestone does not read CAN frames, does not connect to a vehicle, and does
 - Firmware compiles.
 - Firmware uploads to ESP32.
 - Startup log shows SPI initialization.
+- Startup log shows three MCP2515 detection attempts if the module is not detected immediately.
 - Startup log reports MCP2515 detected successfully.
 
 ## Fail Criteria
 
 - Startup log reports MCP2515 not detected.
+- Startup log reports SPI initialization failure, timeout, not responding, or unknown device.
 - ESP32 repeatedly resets after wiring.
 - MCP2515 module becomes hot.
 - Any voltage or logic-level compatibility is uncertain.

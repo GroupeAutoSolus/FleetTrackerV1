@@ -29,6 +29,8 @@ The current firmware:
 - Logs SPI service initialization.
 - Logs SPI pin configuration.
 - Attempts MCP2515 SPI detection through the Module Manager.
+- Retries MCP2515 detection three times before reporting failure.
+- Continues booting if MCP2515 is missing or unpowered.
 - Logs application initialization.
 - Prints `GAS Smart Tracker heartbeat` every 2 seconds.
 - Logs uptime, free heap, and module health placeholder with each heartbeat.

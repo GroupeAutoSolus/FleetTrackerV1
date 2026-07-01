@@ -51,3 +51,9 @@ Documented the planned MCP2515 header mapping and added a hardware warning that 
 Phase 2 begins with BuildInfo and MCP2515 SPI detection. BuildInfo now owns firmware build metadata including firmware version, git commit placeholder, build date, build time, board, hardware, and build type.
 
 MCP2515 is registered as the first hardware module under Module Manager. The module performs SPI-only controller detection and reports success or failure without reading CAN frames, connecting to a vehicle, or implementing OBD-II.
+
+## 2026-07-01 - Milestone v0.10.0: MCP2515 Electrical Validation
+
+Prepared the MCP2515 detection path for bench validation once VCC is connected. Detection now attempts communication three times, logs each attempt, logs CANSTAT debug values, and reports SPI initialization failure, timeout, not responding, or unknown device conditions.
+
+The firmware continues booting if MCP2515 detection fails, so the module is not required to be present or powered. No CAN frame reading, OBD-II, SIM7600, GPS, LTE, backend, or dashboard behavior was added.

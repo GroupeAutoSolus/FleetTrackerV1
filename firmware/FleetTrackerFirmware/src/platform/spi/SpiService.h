@@ -11,6 +11,7 @@ struct PinConfiguration {
 };
 
 void Initialize();
+bool IsInitialized();
 const PinConfiguration& GetPinConfiguration();
 const char* GetPinConfigurationSummary();
 void DelayAfterPeripheralReset();

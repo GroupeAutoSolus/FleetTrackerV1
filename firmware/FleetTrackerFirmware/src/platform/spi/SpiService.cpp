@@ -16,6 +16,7 @@ constexpr SpiService::PinConfiguration kDefaultPins = {
 };
 
 char pinSummary[96] = {};
+bool initialized = false;
 
 } // namespace
 
@@ -29,6 +30,8 @@ void Initialize()
         kDefaultPins.mosi,
         kDefaultPins.defaultChipSelect);
 
+    initialized = true;
+
     std::snprintf(
         pinSummary,
         sizeof(pinSummary),
@@ -38,6 +41,11 @@ void Initialize()
         kDefaultPins.mosi,
         kDefaultPins.defaultChipSelect,
         kDefaultPins.futureMcp2515Interrupt);
+}
+
+bool IsInitialized()
+{
+    return initialized;
 }
 
 const PinConfiguration& GetPinConfiguration()

@@ -7,6 +7,7 @@ enum class StatusCode {
     NotInitialized,
     Timeout,
     HardwareUnavailable,
+    UnknownDevice,
 };
 
 const char* StatusCodeToString(StatusCode statusCode);

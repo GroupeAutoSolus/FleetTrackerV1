@@ -53,7 +53,7 @@ firmware/
 
 ## Current Status
 
-Milestone v0.9.0 adds BuildInfo and the first external hardware module foundation under `firmware/FleetTrackerFirmware`.
+Milestone v0.10.0 hardens the MCP2515 SPI detection path for electrical validation under `firmware/FleetTrackerFirmware`.
 
 The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. BuildInfo owns firmware build metadata. Platform owns Arduino timing and ESP32 framework diagnostics calls. SpiService owns SPI bus initialization. Logger owns serial output. Configuration owns early runtime settings. Diagnostics owns boot/runtime health reporting. Module Manager owns module lifecycle/status coordination. StatusCode owns shared status/error naming. Application owns orchestration.
 
@@ -69,6 +69,6 @@ The boot counter is currently a volatile placeholder. Persistent boot counting w
 
 The hardware watchdog is not enabled yet. Future watchdog work should live behind Platform and report state through Diagnostics.
 
-The MCP2515 module currently performs SPI controller detection only. No CAN frame reading, OBD-II, vehicle communication, modem AT command, GNSS, or LTE behavior has been implemented yet.
+The MCP2515 module currently performs SPI controller detection only. It attempts detection three times, logs each attempt, and continues booting if the module is not detected. No CAN frame reading, OBD-II, vehicle communication, modem AT command, GNSS, or LTE behavior has been implemented yet.
 
 See [BUILD.md](BUILD.md) for compile, upload, and monitor commands.

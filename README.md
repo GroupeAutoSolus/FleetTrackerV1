@@ -100,7 +100,7 @@ The module layout is described in [firmware/README.md](firmware/README.md) and [
  
 Current phase: Phase 2 - Communications and external hardware validation.
 
-Milestone v0.9.0 introduces BuildInfo and the first external hardware module: MCP2515 SPI detection. This verifies ESP32-to-MCP2515 SPI communication only. It does not read CAN traffic, connect to a vehicle, or implement OBD-II.
+Milestone v0.10.0 prepares MCP2515 electrical validation. The firmware can retry SPI detection and continue booting if the module is missing or unpowered. It does not read CAN traffic, connect to a vehicle, or implement OBD-II.
 
 ## Planning Documents
 

@@ -15,6 +15,8 @@ const char* StatusCodeToString(StatusCode statusCode)
         return "TIMEOUT";
     case StatusCode::HardwareUnavailable:
         return "HARDWARE_UNAVAILABLE";
+    case StatusCode::UnknownDevice:
+        return "UNKNOWN_DEVICE";
     default:
         return "ERROR";
     }

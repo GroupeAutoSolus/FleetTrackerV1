@@ -11,6 +11,7 @@
 | 0.7 | Phase 1 hardening | Add status/error conventions, improved module status formatting, boot counter placeholder, watchdog planning, and clearer heartbeat diagnostics. | Complete |
 | 0.8 | SPI platform service foundation | Add SPI abstraction, default ESP32 SPI pin configuration, and MCP2515 wiring documentation without CAN logic. | Complete |
 | 0.9 | First external hardware detection | Add BuildInfo and verify ESP32-to-MCP2515 SPI communication without CAN frame reading. | Complete |
+| 0.10 | MCP2515 electrical validation | Harden MCP2515 SPI detection with retry logic and detailed electrical validation logs before applying VCC. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
 ## Version 0.1 Acceptance Criteria
@@ -123,4 +124,15 @@
 - Firmware continues running whether detection succeeds or fails.
 - Hardware validation checklist documents operating voltage, logic compatibility, SPI wiring, and common ground.
 - No CAN frame reading, OBD-II, vehicle communication, SIM7600, GPS, LTE, backend, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.10 Acceptance Criteria
+
+- MCP2515 implementation has been reviewed and prepared for immediate detection once VCC is connected.
+- MCP2515 detection attempts run three times.
+- Each detection attempt is logged.
+- Detailed errors report SPI initialization failure, MCP2515 timeout, MCP2515 not responding, and unknown SPI device.
+- Firmware continues booting when MCP2515 detection fails.
+- MCP2515 is not required to be present or powered.
+- No CAN functionality, OBD-II, SIM7600, GPS, LTE, backend, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.

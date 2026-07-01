@@ -64,6 +64,7 @@ Firmware uses a lightweight `StatusCode` convention for module state and error p
 - `NOT_INITIALIZED`
 - `TIMEOUT`
 - `HARDWARE_UNAVAILABLE`
+- `UNKNOWN_DEVICE`
 
 These codes are intentionally simple. Future modules may add more detailed error context, but the shared status vocabulary should remain small enough for serial logs, telemetry, and dashboard display.
 
@@ -135,6 +136,8 @@ MCP2515 is the first hardware module managed by Module Manager. The current modu
 - sends an MCP2515 reset command,
 - reads the MCP2515 CANSTAT register,
 - reports detected or not detected.
+- retries detection three times,
+- reports SPI initialization failure, timeout, not responding, or unknown device conditions.
 
 It does not read CAN frames, configure CAN bitrates, connect to a vehicle, or implement OBD-II.
 

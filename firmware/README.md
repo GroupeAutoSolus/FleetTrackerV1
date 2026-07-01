@@ -30,4 +30,8 @@ firmware/
 
 ## Current Status
 
-This milestone only creates placeholders. No GPIO, UART, SPI, CAN, modem AT command, GNSS, or OBD-II behavior has been implemented yet.
+Milestone 0.3 adds an Arduino CLI-compatible baseline sketch under `firmware/FleetTrackerFirmware`.
+
+The baseline sketch only initializes serial output and prints a heartbeat. No GPIO, SPI, CAN, modem AT command, GNSS, or OBD-II behavior has been implemented yet.
+
+See [BUILD.md](BUILD.md) for compile, upload, and monitor commands.

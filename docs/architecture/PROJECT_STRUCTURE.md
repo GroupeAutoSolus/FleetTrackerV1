@@ -18,6 +18,7 @@
 | Folder | Responsibility |
 | --- | --- |
 | `firmware/include/FleetTracker/` | Public module interfaces used across firmware components. |
+| `firmware/FleetTrackerFirmware/` | Arduino CLI-compatible sketch folder for the ESP32 DevKit V1 baseline firmware. |
 | `firmware/src/` | Firmware implementation files. |
 | `firmware/src/app/` | Application lifecycle, orchestration, and top-level coordination. |
 | `firmware/src/modules/gps/` | GNSS acquisition, fix state, location, speed, heading, and time handling. |
@@ -35,6 +36,8 @@
 | File | Responsibility |
 | --- | --- |
 | `firmware/src/main.cpp` | Minimal firmware entry point that delegates work to `Application`. |
+| `firmware/FleetTrackerFirmware/FleetTrackerFirmware.ino` | Minimal Arduino CLI sketch that initializes serial output and prints a heartbeat. |
+| `firmware/BUILD.md` | Firmware compile, upload, monitor, and board configuration documentation. |
 | `firmware/include/FleetTracker/Application.hpp` | Public application lifecycle interface. |
 | `firmware/src/app/Application.cpp` | Application initialization and scheduler-loop placeholder. |
 | `firmware/include/FleetTracker/Gps.hpp` | Public GNSS module interface. |
@@ -70,6 +73,7 @@
 | `hardware/datasheets/README.md` | Placeholder for datasheets and vendor references. |
 | `docs/README.md` | Defines documentation folder responsibilities. |
 | `docs/JOURNAL.md` | Chronological project decisions and milestone notes. |
+| `docs/development/ARDUINO_CLI_SETUP.md` | Manual Arduino CLI and ESP32 Arduino core setup instructions for macOS. |
 | `docs/product/GAS_SMART_TRACKER_PRODUCT_SPEC.md` | Product purpose, users, prototype goals, commercial goals, telemetry scope, GAS-specific features, and V1 exclusions. |
 | `docs/product/DATA_MODEL_DRAFT.md` | Early draft of core GAS Smart Tracker product entities and domain identifiers. |
 | `docs/architecture/PROJECT_STRUCTURE.md` | Explains every folder and source file created in Version 0.1. |
@@ -81,4 +85,7 @@
 | `tests/backend/.gitkeep` | Preserves system backend test folder. |
 | `tests/dashboard/.gitkeep` | Preserves system dashboard test folder. |
 | `tools/README.md` | Defines the purpose of the tools folder. |
+| `tools/firmware/compile.sh` | Arduino CLI compile helper for the firmware sketch. |
+| `tools/firmware/upload.sh` | Arduino CLI upload helper using a configured serial port. |
+| `tools/firmware/monitor.sh` | Arduino CLI serial monitor helper using a configured serial port and baud rate. |
 | `.github/README.md` | Defines the purpose of future GitHub automation configuration. |

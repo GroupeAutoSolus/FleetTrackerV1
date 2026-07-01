@@ -6,6 +6,7 @@ The docs folder contains architecture, product, planning, hardware, and mileston
 
 - `architecture/`: System structure and design boundaries.
 - `product/`: Product intent, domain model, and GAS-specific requirements.
+- `development/`: Developer setup and local toolchain documentation.
 - `roadmap/`: Development phases and engineering direction.
 - `milestones/`: Version-by-version milestone tracker.
 - `hardware/`: Hardware design notes that are not inventory, schematics, or datasheets.

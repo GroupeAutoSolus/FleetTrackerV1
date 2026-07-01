@@ -74,6 +74,8 @@ The module layout is described in [firmware/README.md](firmware/README.md) and [
 - [GAS Smart Tracker Product Spec](docs/product/GAS_SMART_TRACKER_PRODUCT_SPEC.md)
 - [Data Model Draft](docs/product/DATA_MODEL_DRAFT.md)
 - [Project Journal](docs/JOURNAL.md)
+- [Arduino CLI Setup](docs/development/ARDUINO_CLI_SETUP.md)
+- [Firmware Build Guide](firmware/BUILD.md)
 - [Development Roadmap](docs/roadmap/DEVELOPMENT_ROADMAP.md)
 - [Milestone Tracker](docs/milestones/MILESTONE_TRACKER.md)
 - [Hardware Inventory](hardware/inventory/HARDWARE_INVENTORY.md)

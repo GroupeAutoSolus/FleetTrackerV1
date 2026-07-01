@@ -11,3 +11,9 @@ Examples of future tools include:
 - Release and packaging utilities.
 
 No tools are implemented in Milestone 0.2.
+
+## Current Tools
+
+- `firmware/compile.sh`: Compiles the Arduino CLI firmware sketch.
+- `firmware/upload.sh`: Uploads the sketch to an ESP32 serial port.
+- `firmware/monitor.sh`: Opens the serial monitor at the configured baud rate.

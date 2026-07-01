@@ -17,7 +17,7 @@
 
 ## Phase 2: Firmware Build System and Coding Standards
 
-- Select firmware build environment.
+- Use Arduino CLI with the ESP32 Arduino core as the initial firmware build environment.
 - Add compiler settings and formatting rules.
 - Add static analysis and unit test scaffolding.
 - Define embedded coding standards.

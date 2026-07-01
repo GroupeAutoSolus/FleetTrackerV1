@@ -1,72 +1,64 @@
 # Development Roadmap
 
-## Phase 1: Architecture and Repository Foundation
+## Project Phases
+
+| Phase | Focus |
+| --- | --- |
+| Phase 1 - Foundation | Firmware structure, build system, logging, diagnostics, module manager, project documentation, and development workflow. |
+| Phase 2 - Communications | LTE modem, network registration, data sessions, API transport, command polling, and connectivity recovery. |
+| Phase 3 - Vehicle | CAN bus, OBD-II, vehicle telemetry, diagnostic trouble codes, ignition state, trip events, and odometer sources. |
+| Phase 4 - Backend | Telemetry ingestion, device identity, customer/fleet/vehicle records, command delivery, and alert processing. |
+| Phase 5 - Dashboard | Operator UI, fleet views, vehicle details, diagnostics, alerts, and technician workflows. |
+| Phase 6 - Production | Hardware hardening, provisioning, OTA, enclosure, certifications, manufacturing, support, and field operations. |
+
+## Phase 1 - Foundation
 
 - Establish project structure.
-- Define firmware module boundaries.
-- Document current hardware inventory.
-- Create roadmap and milestone tracker.
-- Keep implementation hardware-neutral.
-
-## Phase 1.5: GAS Product Architecture
-
 - Position the product as GAS Smart Tracker by Groupe Auto Solus.
-- Define early commercial fleet service domain concepts.
-- Draft product purpose, target users, prototype goals, and commercial goals.
-- Draft early entities for customers, fleets, vehicles, devices, technicians, trips, telemetry events, maintenance alerts, and diagnostic codes.
-
-## Phase 2: Firmware Build System and Coding Standards
-
+- Define firmware layer boundaries.
 - Use Arduino CLI with the ESP32 Arduino core as the initial firmware build environment.
-- Add compiler settings and formatting rules.
-- Add static analysis and unit test scaffolding.
-- Define embedded coding standards.
+- Validate ESP32 compile, upload, and serial boot behavior.
+- Add Application, Platform, Logger, Configuration, Diagnostics, and Module Manager foundations.
+- Document current hardware inventory.
+- Keep hardware-specific modules out of scope until the foundation is stable.
 
-## Phase 3: Hardware Bring-Up
+## Phase 2 - Communications
 
-- Validate ESP32 development board workflow.
-- Validate power supply assumptions on bench power.
-- Document wiring and pin map.
-- Bring up modem, GNSS, CAN controller, and OBD-II separately.
+- Add LTE modem service boundaries.
+- Validate SIM7600 serial communication.
+- Validate SIM state, signal quality, network registration, and data sessions.
+- Add API transport placeholders before real backend integration.
+- Add connectivity recovery and diagnostic logging.
 
-## Phase 4: Telemetry Prototype
+## Phase 3 - Vehicle
 
-- Read GNSS data.
-- Establish LTE data connection.
-- Read selected OBD-II PIDs.
-- Publish prototype telemetry payloads.
-- Add local logging and recovery behavior.
+- Add CAN bus service boundaries.
+- Validate MCP2515 communication.
+- Add OBD-II service boundaries.
+- Read selected vehicle PIDs in controlled tests.
+- Add diagnostic trouble code, ignition state, trip event, and odometer source handling.
 
-## Phase 5: Backend Prototype
+## Phase 4 - Backend
 
 - Create ingestion API.
 - Store device telemetry.
+- Add customer, fleet, vehicle, and device records.
 - Add device identity and authentication model.
-- Add basic command/config delivery.
+- Add command/config delivery.
+- Add maintenance and battery alert processing.
 
-## Phase 6: Dashboard Prototype
+## Phase 5 - Dashboard
 
-- Display vehicles and latest telemetry.
-- Show location history.
-- Show diagnostic values.
-- Add basic device administration.
+- Display fleet and vehicle status.
+- Show latest location and vehicle detail views.
+- Show diagnostic values and maintenance alerts.
+- Add device administration.
+- Add technician workflow support.
 
-## Phase 7: Field-Test Prototype
-
-- Replace breadboard wiring with safer prototype interconnect.
-- Add watchdog and power recovery behavior.
-- Add telemetry buffering during network outages.
-- Test in controlled vehicle conditions.
-
-## Phase 8: Production Planning
+## Phase 6 - Production
 
 - Define production hardware requirements.
 - Review automotive electrical protection.
 - Plan enclosure, connectors, certifications, and manufacturing.
 - Harden firmware update and provisioning flows.
-
-## Phase 9: Version 1.0 Release
-
-- Ship stable device firmware, backend, and dashboard baseline.
-- Document installation, operation, diagnostics, and maintenance.
-- Establish release, support, and incident processes.
+- Establish installation, support, and incident processes.

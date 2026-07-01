@@ -11,8 +11,12 @@ firmware/
                              Application lifecycle and update loop.
   FleetTrackerFirmware/src/configuration/
                              Firmware configuration placeholders.
+  FleetTrackerFirmware/src/diagnostics/
+                             Boot and runtime diagnostics reporting.
   FleetTrackerFirmware/src/logging/
                              Logger implementation and serial log ownership.
+  FleetTrackerFirmware/src/modules/
+                             Module interface and module manager foundation.
   FleetTrackerFirmware/src/platform/
                              Arduino/ESP32 timing abstraction.
   include/FleetTracker/      Public firmware interfaces shared across modules.
@@ -41,9 +45,9 @@ firmware/
 
 ## Current Status
 
-Milestone 0.5 adds the first firmware foundation layer under `firmware/FleetTrackerFirmware`.
+Milestone v0.6.0 extends the firmware foundation under `firmware/FleetTrackerFirmware`.
 
-The Arduino `.ino` entry point now delegates to `Application::Initialize()` and `Application::Update()`. Platform owns Arduino timing calls, Logger owns serial output, Configuration owns early firmware settings, and Application owns startup sequencing and heartbeat scheduling.
+The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. Platform owns Arduino timing and ESP32 framework diagnostics calls, Logger owns serial output, Configuration owns early firmware settings, Diagnostics owns boot/runtime health reporting, Module Manager owns future module lifecycle/status coordination, and Application owns orchestration.
 
 No GPIO, SPI, CAN, modem AT command, GNSS, LTE, or OBD-II behavior has been implemented yet.
 

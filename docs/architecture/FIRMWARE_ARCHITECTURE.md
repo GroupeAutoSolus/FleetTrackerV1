@@ -27,6 +27,20 @@ Milestone 0.5 establishes the first compiled firmware foundation inside `firmwar
 | `Configuration` | Holds placeholder firmware settings such as firmware version, device ID, heartbeat interval, future APN, and future server URL. |
 | `Logger` | Owns all direct serial output through `Serial.begin`, `Serial.print`, and `Serial.println`. |
 | `Platform` | Owns direct Arduino timing calls through `millis()` and `delay()`. |
+| `Diagnostics` | Reports firmware version, device ID, uptime, free heap, reset reason, boot status, and module health summary. |
+| `ModuleManager` | Provides the future registration/update/status foundation for hardware and service modules. |
+
+## Module Manager Foundation
+
+Future firmware modules should support:
+
+- `Initialize()`
+- `Update()`
+- `GetName()`
+- `GetStatus()`
+- `GetLastError()`
+
+Milestone v0.6.0 adds the shared structure only. No hardware modules are registered yet, so the current module health summary reports that no hardware modules are registered.
 
 ## Module Boundaries
 
@@ -69,6 +83,12 @@ Responsible for shared helpers that do not own hardware, transport, or applicati
 Responsible for framework boundary functions. Current functions are `Platform::Initialize()`, `Platform::Millis()`, and `Platform::Delay(milliseconds)`.
 
 Current rule: no module outside Platform should call Arduino `delay()` or `millis()` directly.
+
+Platform also owns ESP32 framework calls needed by diagnostics, such as free heap and reset reason reporting.
+
+### Diagnostics
+
+Responsible for local device health reporting. Current diagnostics include firmware version, device ID, uptime in milliseconds, free heap memory, reset reason, boot status, and module status summary placeholder.
 
 ## Business and Domain Concepts
 

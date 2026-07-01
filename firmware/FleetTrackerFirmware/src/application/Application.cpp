@@ -1,7 +1,9 @@
 #include "Application.h"
 
 #include "../configuration/Configuration.h"
+#include "../diagnostics/Diagnostics.h"
 #include "../logging/Logger.h"
+#include "../modules/ModuleManager.h"
 #include "../platform/Platform.h"
 
 namespace {
@@ -17,14 +19,19 @@ void Initialize()
     Logger::Initialize();
     Logger::Info("GAS Smart Tracker booting...");
 
-    Logger::Info("Firmware version:");
-    Logger::Info(Configuration::Current().firmwareVersion);
-
     Platform::Initialize();
-    Logger::Info("Platform initialized");
-
     Configuration::Load();
+
+    Diagnostics::LogBootReport();
+
+    Logger::Info("Platform initialized");
     Logger::Info("Configuration loaded");
+
+    ModuleManager::Initialize();
+    Logger::Info("Module manager initialized");
+
+    Diagnostics::Initialize();
+    Logger::Info("Diagnostics initialized");
 
     Logger::Info("Application initialized");
 }
@@ -37,8 +44,10 @@ void Update()
     if ((nowMs - lastHeartbeatMs) >= heartbeatIntervalMs) {
         lastHeartbeatMs = nowMs;
         Logger::Info("GAS Smart Tracker heartbeat");
+        Diagnostics::LogHeartbeat();
     }
 
+    ModuleManager::Update();
     Platform::Delay(1);
 }
 

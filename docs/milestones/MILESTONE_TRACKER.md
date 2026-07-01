@@ -7,7 +7,7 @@
 | 0.3 | Firmware build baseline | Use Arduino CLI with ESP32 Arduino core, add setup docs, add minimal serial heartbeat sketch, and add helper scripts. | Complete |
 | 0.4 | ESP32 firmware boot test | Compile the baseline firmware, upload it to ESP32 DevKit V1, and verify serial boot and heartbeat output. | Complete |
 | 0.5 | Firmware platform layer and logging foundation | Add Application, Platform, Logger, and Configuration foundation while keeping the Arduino entry point small. | Complete |
-| 0.6 | Hardware bring-up | Validate ESP32, SIM7600G-H, GNSS, MCP2515, and power wiring on the bench. | Planned |
+| 0.6 | Diagnostics and module manager | Add diagnostics reporting and module manager foundation while staying in Phase 1. | Complete |
 | 0.7 | Telemetry module baseline | Implement initial GPS, modem, CAN, OBD-II, configuration, and logging behavior. | Planned |
 | 0.8 | Device-to-cloud prototype | Add API client, telemetry payload format, retry policy, and backend ingestion prototype. | Planned |
 | 0.9 | Backend and dashboard MVP | Store telemetry, show vehicle status, show latest location, and expose basic admin views. | Planned |
@@ -72,3 +72,16 @@
 - Firmware logs boot, firmware version, platform initialization, configuration loading, application initialization, and heartbeat messages.
 - No SIM7600, CAN, OBD-II, GPS, LTE, backend, or dashboard code has been added.
 - Firmware compiles successfully with the existing helper script.
+
+## Version 0.6 Acceptance Criteria
+
+- Project phases are documented as Foundation, Communications, Vehicle, Backend, Dashboard, and Production.
+- Module Manager foundation exists.
+- Future module lifecycle shape is documented as `Initialize()`, `Update()`, `GetName()`, `GetStatus()`, and `GetLastError()`.
+- Diagnostics reports firmware version, device ID, uptime, free heap memory, reset reason, boot status, and module status summary placeholder.
+- Application boot flow logs boot, firmware version, device ID, reset reason, free heap memory, platform initialized, configuration loaded, module manager initialized, diagnostics initialized, and application initialized.
+- Heartbeat logs include uptime, free heap memory, and module health summary placeholder.
+- Logger remains the only code that uses Serial directly.
+- Platform remains the only code that uses Arduino timing directly.
+- No SIM7600, GPS, LTE, CAN, OBD-II, backend, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.

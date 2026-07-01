@@ -27,3 +27,9 @@ Validation completed successfully with Arduino CLI. The firmware compiled, uploa
 Refactored the Arduino firmware entry point into a small delegating sketch. Added Application, Platform, Logger, and Configuration foundation files under the Arduino CLI sketch source tree.
 
 The firmware now logs boot, firmware version, platform initialization, configuration loading, application initialization, and heartbeat messages through Logger. Platform owns Arduino timing calls. No SIM7600, CAN, OBD-II, GPS, LTE, backend, or dashboard behavior was added.
+
+## 2026-07-01 - Milestone v0.6.0: Diagnostics and Module Manager
+
+Added Project Phases to documentation: Foundation, Communications, Vehicle, Backend, Dashboard, and Production. The project remains in Phase 1 - Foundation.
+
+Added Diagnostics and Module Manager foundations. Diagnostics reports firmware version, device ID, uptime, free heap memory, reset reason, boot status, and module health placeholder. Module Manager defines the future module lifecycle shape without registering hardware modules.

@@ -6,7 +6,7 @@ The project starts with an ESP32-based prototype and is organized so the firmwar
 
 The product direction is no longer a generic fleet tracker. GAS Smart Tracker is being designed around the operating needs of Groupe Auto Solus, a mobile mechanic and fleet service business. The long-term goal is to support customer fleet visibility, proactive maintenance, diagnostic insight, and technician workflows.
 
-This first milestone is intentionally architectural. It creates the repository structure, module boundaries, documentation, and planning artifacts. Hardware-specific implementation will be added in later milestones.
+The project is currently in Phase 1, focused on firmware foundation and architecture. Hardware-specific services will be added in later phases.
 
 ## Repository Layout
 
@@ -56,7 +56,24 @@ See [hardware/inventory/HARDWARE_INVENTORY.md](hardware/inventory/HARDWARE_INVEN
 
 ## Firmware Architecture
 
-The firmware is organized around independent modules:
+The firmware is organized around layers:
+
+1. Application Layer
+2. Service Layer
+3. Platform Layer
+4. Arduino Framework
+5. ESP32 Hardware
+
+Current foundation services include:
+
+- Application
+- Platform
+- Logger
+- Configuration
+- Diagnostics
+- Module Manager
+
+Future hardware services include:
 
 - GPS
 - LTE modem
@@ -68,6 +85,19 @@ The firmware is organized around independent modules:
 - Utilities
 
 The module layout is described in [firmware/README.md](firmware/README.md) and [docs/architecture/FIRMWARE_ARCHITECTURE.md](docs/architecture/FIRMWARE_ARCHITECTURE.md).
+
+## Project Phases
+
+| Phase | Focus |
+| --- | --- |
+| Phase 1 - Foundation | Firmware structure, build system, logging, diagnostics, module manager, and documentation. |
+| Phase 2 - Communications | LTE modem, network registration, data sessions, API transport, and connectivity recovery. |
+| Phase 3 - Vehicle | CAN bus, OBD-II, vehicle telemetry, diagnostic trouble codes, ignition state, and odometer sources. |
+| Phase 4 - Backend | Telemetry ingestion, device identity, customer/fleet/vehicle records, command delivery, and alert processing. |
+| Phase 5 - Dashboard | Operator UI, fleet views, vehicle detail pages, diagnostics, alerts, and technician workflows. |
+| Phase 6 - Production | Hardware hardening, provisioning, OTA, enclosure, certifications, manufacturing, and field operations. |
+ 
+Current phase: Phase 1 - Foundation.
 
 ## Planning Documents
 

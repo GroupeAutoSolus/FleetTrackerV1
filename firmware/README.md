@@ -19,6 +19,8 @@ firmware/
                              Module interface and module manager foundation.
   FleetTrackerFirmware/src/platform/
                              Arduino/ESP32 timing abstraction.
+  FleetTrackerFirmware/src/platform/spi/
+                             SPI service foundation for future peripherals.
   FleetTrackerFirmware/src/status/
                              Shared firmware status/error code conventions.
   include/FleetTracker/      Public firmware interfaces shared across modules.
@@ -47,14 +49,22 @@ firmware/
 
 ## Current Status
 
-Milestone v0.7.0 hardens the Phase 1 firmware foundation under `firmware/FleetTrackerFirmware`.
+Milestone v0.8.0 adds the SPI platform service foundation under `firmware/FleetTrackerFirmware`.
 
-The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. Platform owns Arduino timing and ESP32 framework diagnostics calls, Logger owns serial output, Configuration owns early firmware settings, Diagnostics owns boot/runtime health reporting, Module Manager owns future module lifecycle/status coordination, StatusCode owns shared status/error naming, and Application owns orchestration.
+The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. Platform owns Arduino timing and ESP32 framework diagnostics calls, SpiService owns SPI bus initialization, Logger owns serial output, Configuration owns early firmware settings, Diagnostics owns boot/runtime health reporting, Module Manager owns future module lifecycle/status coordination, StatusCode owns shared status/error naming, and Application owns orchestration.
+
+Default ESP32 SPI pin configuration:
+
+- SCK: GPIO18
+- MISO/SO: GPIO19
+- MOSI/SI: GPIO23
+- Default CS for future MCP2515: GPIO5
+- Future MCP2515 INT: GPIO4
 
 The boot counter is currently a volatile placeholder. Persistent boot counting will be added later using ESP32 NVS/flash after storage ownership and flash wear policy are defined.
 
 The hardware watchdog is not enabled yet. Future watchdog work should live behind Platform and report state through Diagnostics.
 
-No GPIO, SPI, CAN, modem AT command, GNSS, LTE, or OBD-II behavior has been implemented yet.
+No MCP2515 driver logic, CAN frame handling, modem AT command, GNSS, LTE, or OBD-II behavior has been implemented yet.
 
 See [BUILD.md](BUILD.md) for compile, upload, and monitor commands.

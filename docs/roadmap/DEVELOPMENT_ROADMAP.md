@@ -21,6 +21,7 @@
 - Add Application, Platform, Logger, Configuration, Diagnostics, and Module Manager foundations.
 - Add lightweight status/error code conventions.
 - Add boot counter placeholder and watchdog strategy documentation.
+- Add SPI platform service foundation before vehicle hardware modules.
 - Document current hardware inventory.
 - Keep hardware-specific modules out of scope until the foundation is stable.
 
@@ -34,6 +35,7 @@
 
 ## Phase 3 - Vehicle
 
+- Validate MCP2515 voltage compatibility and wiring.
 - Add CAN bus service boundaries.
 - Validate MCP2515 communication.
 - Add OBD-II service boundaries.

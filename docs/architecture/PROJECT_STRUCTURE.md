@@ -25,6 +25,7 @@
 | `firmware/FleetTrackerFirmware/src/logging/` | Compiled Arduino logger and serial output ownership. |
 | `firmware/FleetTrackerFirmware/src/modules/` | Compiled Arduino module lifecycle interface and module manager foundation. |
 | `firmware/FleetTrackerFirmware/src/platform/` | Compiled Arduino platform abstraction for timing and future framework boundaries. |
+| `firmware/FleetTrackerFirmware/src/platform/spi/` | Compiled Arduino SPI service foundation and pin configuration metadata. |
 | `firmware/FleetTrackerFirmware/src/status/` | Compiled Arduino status/error code conventions. |
 | `firmware/src/` | Firmware implementation files. |
 | `firmware/src/app/` | Application lifecycle, orchestration, and top-level coordination. |
@@ -57,6 +58,8 @@
 | `firmware/FleetTrackerFirmware/src/modules/ModuleManager.cpp` | Module manager placeholder implementation and health summary. |
 | `firmware/FleetTrackerFirmware/src/platform/Platform.h` | Platform abstraction interface for initialization, milliseconds, and delay. |
 | `firmware/FleetTrackerFirmware/src/platform/Platform.cpp` | Arduino-backed platform implementation. |
+| `firmware/FleetTrackerFirmware/src/platform/spi/SpiService.h` | SPI service interface and default pin configuration structure. |
+| `firmware/FleetTrackerFirmware/src/platform/spi/SpiService.cpp` | Arduino SPI bus initialization and pin summary formatting. |
 | `firmware/FleetTrackerFirmware/src/status/StatusCode.h` | Shared firmware status/error code interface. |
 | `firmware/FleetTrackerFirmware/src/status/StatusCode.cpp` | Shared firmware status/error code string conversion. |
 | `firmware/BUILD.md` | Firmware compile, upload, monitor, and board configuration documentation. |

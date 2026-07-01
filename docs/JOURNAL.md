@@ -39,3 +39,9 @@ Added Diagnostics and Module Manager foundations. Diagnostics reports firmware v
 Added lightweight firmware status/error code conventions and improved Module Manager status formatting. Added a volatile boot counter placeholder and documented that persistent boot count should later use ESP32 NVS/flash.
 
 Documented future watchdog strategy without enabling hardware watchdog behavior. Improved heartbeat diagnostics formatting while keeping Serial access isolated to Logger and Arduino timing isolated to Platform.
+
+## 2026-07-01 - Milestone v0.8.0: SPI Platform Service Foundation
+
+Added a clean SPI platform service foundation before MCP2515-specific CAN work. The SPI service initializes the ESP32 SPI bus and reports the default pin configuration: SCK GPIO18, MISO/SO GPIO19, MOSI/SI GPIO23, CS GPIO5, and future MCP2515 INT GPIO4.
+
+Documented the planned MCP2515 header mapping and added a hardware warning that VCC and logic-level compatibility must be validated before wiring. No MCP2515 driver logic, CAN frame handling, OBD-II, SIM7600, GPS, LTE, backend, or dashboard behavior was added.

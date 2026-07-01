@@ -16,7 +16,7 @@ GAS Smart Tracker firmware uses Arduino CLI with the ESP32 Arduino core.
 
 ## Firmware Behavior
 
-The Milestone 0.5 firmware:
+The current firmware:
 
 - Initializes serial output at `115200`.
 - Prints `GAS Smart Tracker booting...` once during startup.
@@ -25,12 +25,15 @@ The Milestone 0.5 firmware:
 - Logs configuration loading.
 - Logs module manager initialization.
 - Logs diagnostics initialization.
+- Logs SPI service initialization.
+- Logs SPI pin configuration.
 - Logs application initialization.
 - Prints `GAS Smart Tracker heartbeat` every 2 seconds.
 - Logs uptime, free heap, and module health placeholder with each heartbeat.
 - Uses lightweight status/error code placeholders for module health.
 - Includes a volatile boot counter placeholder.
 - Does not use SIM7600.
+- Does not include MCP2515 driver logic.
 - Does not use CAN.
 - Does not use OBD-II.
 - Does not use GPS or LTE services.

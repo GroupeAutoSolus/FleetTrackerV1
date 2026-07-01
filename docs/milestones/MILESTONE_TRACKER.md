@@ -9,7 +9,7 @@
 | 0.5 | Firmware platform layer and logging foundation | Add Application, Platform, Logger, and Configuration foundation while keeping the Arduino entry point small. | Complete |
 | 0.6 | Diagnostics and module manager | Add diagnostics reporting and module manager foundation while staying in Phase 1. | Complete |
 | 0.7 | Phase 1 hardening | Add status/error conventions, improved module status formatting, boot counter placeholder, watchdog planning, and clearer heartbeat diagnostics. | Complete |
-| 0.8 | Device-to-cloud prototype | Add API client, telemetry payload format, retry policy, and backend ingestion prototype. | Planned |
+| 0.8 | SPI platform service foundation | Add SPI abstraction, default ESP32 SPI pin configuration, and MCP2515 wiring documentation without CAN logic. | Complete |
 | 0.9 | Backend and dashboard MVP | Store telemetry, show vehicle status, show latest location, and expose basic admin views. | Planned |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
@@ -98,4 +98,17 @@
 - Platform remains the only code that uses Arduino timing directly.
 - Application remains responsible for orchestration.
 - No SIM7600, GPS, LTE, CAN, OBD-II, backend, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.8 Acceptance Criteria
+
+- SPI service/platform abstraction exists.
+- Default ESP32 SPI pin configuration is defined: SCK GPIO18, MISO/SO GPIO19, MOSI/SI GPIO23, CS GPIO5, future MCP2515 INT GPIO4.
+- Hardware documentation maps future MCP2515 header pins to ESP32 pins.
+- Hardware documentation warns that MCP2515 VCC and logic compatibility must be validated before wiring.
+- Application boot flow initializes SPI service.
+- Startup logs include SPI service initialization and SPI pin configuration.
+- Logger remains the only code that uses Serial directly.
+- Platform remains the owner of Arduino timing calls.
+- No MCP2515 driver logic, CAN frame reading, OBD-II, SIM7600, GPS, LTE, backend, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.

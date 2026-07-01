@@ -27,6 +27,7 @@ Phase 1 establishes the compiled firmware foundation inside `firmware/FleetTrack
 | `Configuration` | Holds placeholder firmware settings such as firmware version, device ID, heartbeat interval, future APN, and future server URL. |
 | `Logger` | Owns all direct serial output through `Serial.begin`, `Serial.print`, and `Serial.println`. |
 | `Platform` | Owns direct Arduino timing calls through `millis()` and `delay()`. |
+| `SpiService` | Owns SPI bus initialization and SPI pin metadata for future peripherals. |
 | `Diagnostics` | Reports firmware version, device ID, uptime, free heap, reset reason, boot status, and module health summary. |
 | `ModuleManager` | Provides the future registration/update/status foundation for hardware and service modules. |
 | `StatusCode` | Provides lightweight shared status and error-code conventions. |
@@ -107,6 +108,20 @@ Responsible for framework boundary functions. Current functions are `Platform::I
 Current rule: no module outside Platform should call Arduino `delay()` or `millis()` directly.
 
 Platform also owns ESP32 framework calls needed by diagnostics, such as free heap and reset reason reporting.
+
+### SPI Service
+
+Responsible for SPI bus initialization and pin configuration metadata. Current default ESP32 SPI pin configuration:
+
+| Signal | GPIO |
+| --- | --- |
+| SCK | GPIO18 |
+| MISO / SO | GPIO19 |
+| MOSI / SI | GPIO23 |
+| Default CS for future MCP2515 | GPIO5 |
+| Future MCP2515 INT | GPIO4 |
+
+The SPI service does not implement MCP2515 driver logic, CAN frame handling, or OBD-II behavior. Those belong in later vehicle-phase modules after wiring and voltage compatibility are validated.
 
 ### Diagnostics
 

@@ -5,6 +5,7 @@
 #include "../logging/Logger.h"
 #include "../modules/ModuleManager.h"
 #include "../platform/Platform.h"
+#include "../platform/spi/SpiService.h"
 
 namespace {
 
@@ -26,6 +27,10 @@ void Initialize()
 
     Logger::Info("Platform initialized");
     Logger::Info("Configuration loaded");
+
+    SpiService::Initialize();
+    Logger::Info("SPI service initialized");
+    Logger::Info(SpiService::GetPinConfigurationSummary());
 
     ModuleManager::Initialize();
     Logger::Info("Module manager initialized");

@@ -10,20 +10,65 @@ FleetLink is the physical in-vehicle telematics device. FleetTracker is the broa
 - `schematics/`: Wiring diagrams, pin maps, and future PCB schematics.
 - `datasheets/`: Component datasheets and vendor references.
 
-## Current Vehicle CAN Planning
+## FleetLink Revision B Hardware Architecture
 
-The preferred FleetLink prototype vehicle CAN path is ESP32 built-in TWAI with an SN65HVD230 CAN transceiver. Do not connect to a vehicle CAN bus until TWAI bench validation is complete.
+The preferred FleetLink prototype hardware uses:
 
-Planned default SN65HVD230 wiring:
+- ESP32 DevKit V1
+- SN65HVD230 3.3V CAN transceiver
+- SIM7600G-H LTE/GNSS module
+- 12V to 5V buck converter
+- OBD-II pigtail connector
+- Breadboard for prototype power distribution
 
-| SN65HVD230 | ESP32 / Later Vehicle Connection |
+### Full Wiring Plan
+
+Power distribution:
+
+| Source | Destination |
+| --- | --- |
+| OBD-II pin 16 | Buck converter VIN+ |
+| OBD-II pin 4 / pin 5 | Buck converter VIN- |
+| Buck converter 5V | Breadboard 5V rail |
+| Buck converter GND | Breadboard GND rail |
+| ESP32 VIN / 5V | Breadboard 5V rail |
+| ESP32 GND | Breadboard GND rail |
+| SIM7600 5V | Breadboard 5V rail |
+| SIM7600 GND | Breadboard GND rail |
+
+CAN:
+
+| SN65HVD230 | Destination |
 | --- | --- |
 | 3.3V | ESP32 3V3 |
-| GND | ESP32 GND |
+| GND | Common GND |
 | CTX | ESP32 GPIO21 |
 | CRX | ESP32 GPIO22 |
-| CANH | Vehicle CAN High later |
-| CANL | Vehicle CAN Low later |
+| CANH | OBD-II pin 6 |
+| CANL | OBD-II pin 14 |
+
+SIM7600 serial:
+
+| SIM7600G-H | ESP32 |
+| --- | --- |
+| TX | RX2 / GPIO16 |
+| RX | TX2 / GPIO17 |
+
+### Safety Warnings
+
+- Do not connect OBD-II power until USB bench tests are complete.
+- Do not connect CANH/CANL to a vehicle until TWAI firmware is ready for the vehicle test milestone.
+- ESP32 GPIO is not 5V tolerant.
+- All modules must share common ground.
+
+### Bench-Test Sequence
+
+1. ESP32 by USB only.
+2. SN65HVD230 powered from ESP32 3V3.
+3. TWAI init test.
+4. OBD-II CANH/CANL test with no OBD power.
+5. Buck converter test standalone.
+6. Full OBD power test later.
 
 ## Historical SPI Planning
 

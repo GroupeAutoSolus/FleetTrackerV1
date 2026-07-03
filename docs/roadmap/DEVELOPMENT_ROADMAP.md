@@ -30,6 +30,7 @@
 - Add BuildInfo firmware metadata.
 - Keep MCP2515 limited to deprecated Revision A bench experiments unless explicitly revisited.
 - Pivot active FleetLink vehicle CAN foundation to ESP32 TWAI plus SN65HVD230.
+- Document official FleetLink Revision B hardware architecture and wiring plan before more firmware behavior.
 - Add safe TWAI raw receive scaffolding with default-disabled raw frame logs.
 - Add LTE modem service boundaries.
 - Validate SIM7600 serial communication.
@@ -40,6 +41,7 @@
 ## Phase 3 - Vehicle
 
 - Validate SN65HVD230 wiring and ESP32 TWAI configuration.
+- Validate Revision B staged bench-test sequence before full OBD power.
 - Add CAN bus service boundaries around ESP32 TWAI.
 - Add controlled CAN frame receive validation after a dedicated vehicle or bench-bus test milestone.
 - Add OBD-II service boundaries.

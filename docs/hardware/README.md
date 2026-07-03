@@ -15,21 +15,62 @@ Future documents may include:
 - [Hardware Revisions](HARDWARE_REVISIONS.md)
 - [MCP2515 SPI Validation Checklist](mcp2515/MCP2515_SPI_VALIDATION_CHECKLIST.md)
 
-## Current Vehicle CAN Direction
+## FleetLink Revision B Hardware Architecture
 
-FleetLink Revision B is the preferred prototype direction: ESP32 built-in TWAI plus SN65HVD230.
+FleetLink Revision B is the preferred prototype direction:
 
-Planned default wiring:
+- ESP32 DevKit V1
+- SN65HVD230 3.3V CAN transceiver
+- SIM7600G-H LTE/GNSS module
+- 12V to 5V buck converter
+- OBD-II pigtail connector
+- Breadboard for prototype power distribution
 
-| SN65HVD230 | ESP32 / Later Vehicle Connection |
+### Full Wiring Plan
+
+Power distribution:
+
+| Source | Destination |
+| --- | --- |
+| OBD-II pin 16 | Buck converter VIN+ |
+| OBD-II pin 4 / pin 5 | Buck converter VIN- |
+| Buck converter 5V | Breadboard 5V rail |
+| Buck converter GND | Breadboard GND rail |
+| ESP32 VIN / 5V | Breadboard 5V rail |
+| ESP32 GND | Breadboard GND rail |
+| SIM7600 5V | Breadboard 5V rail |
+| SIM7600 GND | Breadboard GND rail |
+
+CAN:
+
+| SN65HVD230 | Destination |
 | --- | --- |
 | 3.3V | ESP32 3V3 |
-| GND | ESP32 GND |
+| GND | Common GND |
 | CTX | ESP32 GPIO21 |
 | CRX | ESP32 GPIO22 |
-| CANH | Vehicle CAN High later |
-| CANL | Vehicle CAN Low later |
+| CANH | OBD-II pin 6 |
+| CANL | OBD-II pin 14 |
 
-Do not connect to a vehicle CAN bus until TWAI bench validation is complete.
+SIM7600 serial:
 
-Milestone v0.12.0 adds raw TWAI receive polling in firmware only. CANH/CANL must remain disconnected until the vehicle test milestone, and no OBD-II decoding or VIN detection is present.
+| SIM7600G-H | ESP32 |
+| --- | --- |
+| TX | RX2 / GPIO16 |
+| RX | TX2 / GPIO17 |
+
+### Safety Warnings
+
+- Do not connect OBD-II power until USB bench tests are complete.
+- Do not connect CANH/CANL to a vehicle until TWAI firmware is ready for the vehicle test milestone.
+- ESP32 GPIO is not 5V tolerant.
+- All modules must share common ground.
+
+### Bench-Test Sequence
+
+1. ESP32 by USB only.
+2. SN65HVD230 powered from ESP32 3V3.
+3. TWAI init test.
+4. OBD-II CANH/CANL test with no OBD power.
+5. Buck converter test standalone.
+6. Full OBD power test later.

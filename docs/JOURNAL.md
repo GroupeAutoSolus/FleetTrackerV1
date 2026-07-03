@@ -81,3 +81,11 @@ Added safe TWAI receive polling to `TwaiCanInterface::Update()` without connecti
 Raw CAN frame logging is configurable through `rawCanLoggingEnabled` and defaults to disabled. When enabled, received frames are logged with CAN ID, DLC, and data bytes in hex. When no frame is available, no log line is emitted.
 
 Startup now warns that the TWAI receive scaffold is enabled and that CANH/CANL must remain disconnected until the vehicle test milestone. No OBD-II PID decoding, VIN detection, SIM7600, GPS, LTE, backend, or dashboard behavior was added.
+
+## 2026-07-02 - Milestone v0.11.0 Hardware Addendum: FleetLink Revision B Architecture
+
+Documented the official FleetLink Revision B hardware architecture before adding more firmware behavior. Revision B uses ESP32 DevKit V1, SN65HVD230 3.3V CAN transceiver, SIM7600G-H LTE/GNSS module, 12V to 5V buck converter, OBD-II pigtail connector, and a breadboard for prototype power distribution.
+
+Added the full planned wiring for OBD-II power, buck converter rails, ESP32 power, SN65HVD230 TWAI/CAN pins, and SIM7600 UART/power pins. Added safety warnings for OBD-II power, vehicle CAN connection, ESP32 3.3V GPIO limits, and common ground.
+
+Added a staged bench-test sequence: ESP32 by USB only, SN65HVD230 from ESP32 3V3, TWAI init test, OBD-II CANH/CANL test with no OBD power, standalone buck converter test, and full OBD power test later. No firmware behavior, CAN code, SIM7600 code, GPS code, LTE code, backend code, or dashboard code was added.

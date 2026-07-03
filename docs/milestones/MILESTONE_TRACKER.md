@@ -14,6 +14,7 @@
 | 0.10 | MCP2515 electrical validation | Harden MCP2515 SPI detection with retry logic and detailed electrical validation logs before applying VCC. | Complete |
 | 0.10.1 | FleetLink naming and hardware revision update | Introduce FleetLink device naming, document hardware revisions, and choose ESP32 TWAI + SN65HVD230 for the main CAN path. | Complete |
 | 0.11 | FleetLink TWAI CAN architecture pivot | Register ESP32 TWAI + SN65HVD230 as the active vehicle CAN foundation while keeping MCP2515/SPI historical. | Complete |
+| 0.11-hw | FleetLink Revision B hardware architecture | Document the official Revision B wiring plan, safety warnings, and bench-test sequence before more firmware behavior. | Complete |
 | 0.12 | TWAI raw CAN receive scaffold | Add safe nonblocking TWAI receive polling and default-disabled raw frame logging without vehicle connection or OBD-II decoding. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
@@ -169,6 +170,14 @@
 - Firmware continues running if TWAI initialization fails.
 - No vehicle connection, CAN frame reading, OBD-II decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.11 Hardware Architecture Addendum Acceptance Criteria
+
+- FleetLink Revision B hardware is documented as ESP32 DevKit V1, SN65HVD230 3.3V CAN transceiver, SIM7600G-H LTE/GNSS module, 12V to 5V buck converter, OBD-II pigtail connector, and breadboard prototype power distribution.
+- Full wiring plan documents OBD-II power into the buck converter, breadboard 5V/GND rails, ESP32 power, SN65HVD230 power/TWAI/CAN pins, and SIM7600 power/UART pins.
+- Safety warnings state not to connect OBD-II power before USB bench tests, not to connect CANH/CANL before the vehicle test milestone, that ESP32 GPIO is not 5V tolerant, and that all modules need common ground.
+- Bench-test sequence is documented: ESP32 by USB only, SN65HVD230 from ESP32 3V3, TWAI init test, OBD-II CANH/CANL test with no OBD power, standalone buck converter test, and full OBD power test later.
+- No firmware behavior, CAN code, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
 
 ## Version 0.12 Acceptance Criteria
 

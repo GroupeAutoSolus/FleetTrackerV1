@@ -37,6 +37,17 @@ Status: preferred prototype direction.
 
 Engineering decision: use ESP32 built-in TWAI plus SN65HVD230 instead of MCP2515 for the main vehicle CAN path.
 
+Default planned wiring:
+
+| SN65HVD230 | ESP32 / Later Vehicle Connection |
+| --- | --- |
+| 3.3V | ESP32 3V3 |
+| GND | ESP32 GND |
+| CTX | ESP32 GPIO21 |
+| CRX | ESP32 GPIO22 |
+| CANH | Vehicle CAN High later |
+| CANL | Vehicle CAN Low later |
+
 Rationale:
 
 - ESP32 already includes a CAN-compatible TWAI controller.
@@ -63,4 +74,5 @@ Status: future planning.
 
 - FleetLink Revision A MCP2515 path is deprecated for the main ESP32 vehicle CAN path.
 - FleetLink Revision B with ESP32 TWAI + SN65HVD230 is the preferred prototype path.
+- Firmware v0.11.0 registers ESP32 TWAI as the active vehicle CAN module and initializes the TWAI driver only.
 - No vehicle CAN firmware should be built around MCP2515 as the primary architecture unless this decision is explicitly revisited.

@@ -50,8 +50,8 @@ See [docs/product/GAS_SMART_TRACKER_PRODUCT_SPEC.md](docs/product/GAS_SMART_TRAC
 
 - ESP32 Development Board
 - Waveshare SIM7600G-H 4G LTE + GNSS HAT
-- MCP2515 CAN Bus Module, deprecated for the main ESP32 vehicle CAN path
-- SN65HVD230 CAN transceiver, planned for the preferred ESP32 TWAI CAN path
+- SN65HVD230 CAN transceiver for the preferred ESP32 TWAI CAN path
+- MCP2515 CAN Bus Module, deprecated for the main ESP32 vehicle CAN path and retained for historical Revision A bench reference
 - OBD-II male breakout cable
 - 5V automotive buck converter
 - Breadboard
@@ -105,7 +105,20 @@ The module layout is described in [firmware/README.md](firmware/README.md) and [
  
 Current phase: Phase 2 - Communications and external hardware validation.
 
-Milestone v0.10.1 updates naming and hardware direction. GAS Smart Tracker is the product initiative, FleetTracker is the broader platform, and FleetLink is the physical in-vehicle device. The main ESP32 vehicle CAN path is now ESP32 built-in TWAI plus SN65HVD230; MCP2515 is deprecated for that path due to 5V logic compatibility risk.
+Milestone v0.11.0 pivots the active FleetLink vehicle CAN firmware path to ESP32 built-in TWAI plus SN65HVD230. `TwaiCanInterface` is now registered as the active vehicle CAN module through `ModuleManager`; MCP2515 files remain in the repository for historical Revision A reference but are no longer registered as the active CAN path.
+
+Planned SN65HVD230 wiring:
+
+| SN65HVD230 | ESP32 / Later Vehicle Connection |
+| --- | --- |
+| 3.3V | ESP32 3V3 |
+| GND | ESP32 GND |
+| CTX | ESP32 GPIO21 |
+| CRX | ESP32 GPIO22 |
+| CANH | Vehicle CAN High later |
+| CANL | Vehicle CAN Low later |
+
+This milestone initializes the TWAI driver only. It does not connect to a vehicle, read CAN frames, decode OBD-II, add SIM7600/GPS/LTE code, or add backend/dashboard behavior.
 
 ## Planning Documents
 

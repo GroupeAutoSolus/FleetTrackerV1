@@ -65,3 +65,11 @@ Introduced FleetLink as the physical in-vehicle telematics device name. FleetTra
 Documented FleetLink hardware revisions. Revision A uses ESP32 + MCP2515 + SIM7600 + buck converter. Revision B uses ESP32 + SN65HVD230 + SIM7600 + buck converter. Revision C is a future custom PCB.
 
 Documented the engineering decision to use ESP32 built-in TWAI plus SN65HVD230 instead of MCP2515 for the main vehicle CAN path. MCP2515 is deprecated for the ESP32 prototype main CAN path due to 5V logic compatibility risk.
+
+## 2026-07-02 - Milestone v0.11.0: FleetLink TWAI CAN Architecture Pivot
+
+Pivoted the active FleetLink vehicle CAN firmware architecture from MCP2515/SPI to ESP32 built-in TWAI plus SN65HVD230. Added a controller-neutral `CanInterface` and an ESP32-specific `TwaiCanInterface`.
+
+`TwaiCanInterface` is registered with Module Manager as the active vehicle CAN module. It logs the planned TX/RX pins, initializes the TWAI driver, reports success or failure, and allows firmware boot to continue if initialization fails.
+
+MCP2515 files and the SPI service remain in the repository for historical Revision A bench reference, but MCP2515 is no longer registered as the active CAN path. No vehicle connection, CAN frame reading, OBD-II decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code was added.

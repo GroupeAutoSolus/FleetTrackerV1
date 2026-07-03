@@ -10,11 +10,26 @@ FleetLink is the physical in-vehicle telematics device. FleetTracker is the broa
 - `schematics/`: Wiring diagrams, pin maps, and future PCB schematics.
 - `datasheets/`: Component datasheets and vendor references.
 
-## Current SPI Planning
+## Current Vehicle CAN Planning
+
+The preferred FleetLink prototype vehicle CAN path is ESP32 built-in TWAI with an SN65HVD230 CAN transceiver. Do not connect to a vehicle CAN bus until TWAI bench validation is complete.
+
+Planned default SN65HVD230 wiring:
+
+| SN65HVD230 | ESP32 / Later Vehicle Connection |
+| --- | --- |
+| 3.3V | ESP32 3V3 |
+| GND | ESP32 GND |
+| CTX | ESP32 GPIO21 |
+| CRX | ESP32 GPIO22 |
+| CANH | Vehicle CAN High later |
+| CANL | Vehicle CAN Low later |
+
+## Historical SPI Planning
 
 Milestone v0.8.0 defined the ESP32 SPI pin plan before MCP2515-specific CAN logic was added.
 
-Current engineering decision: MCP2515 is deprecated for the main ESP32 vehicle CAN path due to 5V logic compatibility risk. The preferred path is ESP32 built-in TWAI with an SN65HVD230 CAN transceiver.
+Current engineering decision: MCP2515 is deprecated for the main ESP32 vehicle CAN path due to 5V logic compatibility risk. SPI remains documented for future peripherals and historical Revision A MCP2515 bench reference, but it is no longer the primary vehicle CAN path.
 
 Default ESP32 SPI pin configuration:
 

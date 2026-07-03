@@ -28,11 +28,13 @@ Phase 1 establishes the compiled firmware foundation inside `firmware/FleetTrack
 | `Configuration` | Holds placeholder firmware settings such as firmware version, device ID, heartbeat interval, future APN, and future server URL. |
 | `Logger` | Owns all direct serial output through `Serial.begin`, `Serial.print`, and `Serial.println`. |
 | `Platform` | Owns direct Arduino timing calls through `millis()` and `delay()`. |
-| `SpiService` | Owns SPI bus initialization and SPI pin metadata for future peripherals. |
+| `SpiService` | Owns SPI bus initialization and SPI pin metadata for non-primary SPI peripherals and historical MCP2515 bench reference. |
 | `Diagnostics` | Reports firmware version, device ID, uptime, free heap, reset reason, boot status, and module health summary. |
 | `ModuleManager` | Provides the future registration/update/status foundation for hardware and service modules. |
 | `StatusCode` | Provides lightweight shared status and error-code conventions. |
-| `Mcp2515Module` | First hardware module. Performs SPI-only MCP2515 controller detection. |
+| `CanInterface` | Controller-neutral vehicle CAN module abstraction. |
+| `TwaiCanInterface` | Active ESP32 TWAI vehicle CAN implementation. Initializes the TWAI driver only. |
+| `Mcp2515Module` | Deprecated MCP2515 SPI detection module retained for historical Revision A bench reference. |
 
 ## Module Manager Foundation
 
@@ -45,7 +47,7 @@ Future firmware modules should support:
 - `GetLastError()`
 - `IsInitialized()`
 
-Milestone v0.7.0 hardens the shared structure only. No hardware modules are registered yet, so the current module health summary reports `registered_modules=0`.
+Milestone v0.11.0 registers `TwaiCanInterface` as the active vehicle CAN module. `Mcp2515Module` remains in the repository but is not registered as the active CAN path.
 
 Module status summaries should include:
 
@@ -86,6 +88,26 @@ Engineering decision: the main ESP32 vehicle CAN path will use ESP32 built-in TW
 
 MCP2515 is deprecated for the main ESP32 prototype CAN path because many MCP2515 + TJA1050 modules are 5V-oriented and may create logic-level compatibility risk with ESP32 3.3V GPIO. Existing MCP2515 work remains useful only as a controlled Revision A bench SPI experiment.
 
+Current active CAN foundation:
+
+| Interface | Implementation | Purpose |
+| --- | --- | --- |
+| `CanInterface` | Abstract base | Keep higher-level vehicle code independent from a specific CAN controller. |
+| `TwaiCanInterface` | ESP32 TWAI | Initialize the ESP32 built-in TWAI driver with the planned SN65HVD230 pins. |
+
+Planned SN65HVD230 wiring:
+
+| SN65HVD230 | ESP32 / Later Vehicle Connection |
+| --- | --- |
+| 3.3V | ESP32 3V3 |
+| GND | ESP32 GND |
+| CTX | ESP32 GPIO21 |
+| CRX | ESP32 GPIO22 |
+| CANH | Vehicle CAN High later |
+| CANL | Vehicle CAN Low later |
+
+For v0.11.0, `TwaiCanInterface` initializes the TWAI driver only. It does not read CAN frames, connect to a vehicle, decode OBD-II, or publish vehicle telemetry. Firmware boot continues if TWAI initialization fails.
+
 ### OBD-II
 
 Responsible for vehicle diagnostic requests above CAN. Future responsibilities include PID requests, response parsing, timeouts, retry policy, supported PID discovery, and normalized vehicle telemetry.
@@ -118,7 +140,7 @@ Platform also owns ESP32 framework calls needed by diagnostics, such as free hea
 
 ### SPI Service
 
-Responsible for SPI bus initialization and pin configuration metadata. Current default ESP32 SPI pin configuration:
+Responsible for SPI bus initialization and pin configuration metadata. SPI is no longer the primary FleetLink vehicle CAN path; the active vehicle CAN foundation uses ESP32 TWAI plus SN65HVD230. Current default ESP32 SPI pin configuration:
 
 | Signal | GPIO |
 | --- | --- |
@@ -128,11 +150,11 @@ Responsible for SPI bus initialization and pin configuration metadata. Current d
 | Default CS for future MCP2515 | GPIO5 |
 | Future MCP2515 INT | GPIO4 |
 
-The SPI service does not implement MCP2515 driver logic, CAN frame handling, or OBD-II behavior. Those belong in later vehicle-phase modules after wiring and voltage compatibility are validated.
+The SPI service does not implement MCP2515 driver logic, CAN frame handling, or OBD-II behavior. It remains available for future SPI peripherals and historical MCP2515 bench reference.
 
 ### MCP2515 SPI Detection
 
-MCP2515 is the first external hardware module managed by Module Manager, but it is deprecated for the main FleetLink vehicle CAN path. The current module only:
+MCP2515 was the first external hardware module managed by Module Manager, but it is deprecated for the main FleetLink vehicle CAN path and is no longer registered as the active CAN module. The retained historical module only:
 
 - selects the configured SPI chip select pin,
 - sends an MCP2515 reset command,

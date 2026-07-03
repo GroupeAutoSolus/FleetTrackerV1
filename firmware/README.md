@@ -15,8 +15,10 @@ firmware/
                              Firmware configuration placeholders.
   FleetTrackerFirmware/src/diagnostics/
                              Boot and runtime diagnostics reporting.
+  FleetTrackerFirmware/src/hardware/can/
+                             Controller-neutral CAN interface and ESP32 TWAI implementation.
   FleetTrackerFirmware/src/hardware/mcp2515/
-                             MCP2515 SPI detection module.
+                             Deprecated MCP2515 SPI detection module retained for historical reference.
   FleetTrackerFirmware/src/logging/
                              Logger implementation and serial log ownership.
   FleetTrackerFirmware/src/modules/
@@ -24,7 +26,7 @@ firmware/
   FleetTrackerFirmware/src/platform/
                              Arduino/ESP32 timing abstraction.
   FleetTrackerFirmware/src/platform/spi/
-                             SPI service foundation for future peripherals.
+                             SPI service foundation for future peripherals, no longer the primary vehicle CAN path.
   FleetTrackerFirmware/src/status/
                              Shared firmware status/error code conventions.
   include/FleetTracker/      Public firmware interfaces shared across modules.
@@ -53,9 +55,22 @@ firmware/
 
 ## Current Status
 
-Milestone v0.10.0 hardens the MCP2515 SPI detection path for electrical validation under `firmware/FleetTrackerFirmware`.
+Milestone v0.11.0 pivots the active FleetLink vehicle CAN firmware path to ESP32 built-in TWAI plus SN65HVD230 under `firmware/FleetTrackerFirmware`.
 
-The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. BuildInfo owns firmware build metadata. Platform owns Arduino timing and ESP32 framework diagnostics calls. SpiService owns SPI bus initialization. Logger owns serial output. Configuration owns early runtime settings. Diagnostics owns boot/runtime health reporting. Module Manager owns module lifecycle/status coordination. StatusCode owns shared status/error naming. Application owns orchestration.
+The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. BuildInfo owns firmware build metadata. Platform owns Arduino timing and ESP32 framework diagnostics calls. SpiService owns SPI bus initialization for non-primary SPI peripherals and historical MCP2515 bench reference. Logger owns serial output. Configuration owns early runtime settings. Diagnostics owns boot/runtime health reporting. Module Manager owns module lifecycle/status coordination. StatusCode owns shared status/error naming. Application owns orchestration.
+
+Default SN65HVD230 wiring plan:
+
+| SN65HVD230 | ESP32 / Later Vehicle Connection |
+| --- | --- |
+| 3.3V | ESP32 3V3 |
+| GND | ESP32 GND |
+| CTX | ESP32 GPIO21 |
+| CRX | ESP32 GPIO22 |
+| CANH | Vehicle CAN High later |
+| CANL | Vehicle CAN Low later |
+
+`CanInterface` is the controller-neutral vehicle CAN abstraction. `TwaiCanInterface` is the active implementation registered with Module Manager. It initializes the ESP32 TWAI driver only and does not read CAN frames.
 
 Default ESP32 SPI pin configuration:
 
@@ -69,6 +84,8 @@ The boot counter is currently a volatile placeholder. Persistent boot counting w
 
 The hardware watchdog is not enabled yet. Future watchdog work should live behind Platform and report state through Diagnostics.
 
-The MCP2515 module currently performs SPI controller detection only. It attempts detection three times, logs each attempt, and continues booting if the module is not detected. No CAN frame reading, OBD-II, vehicle communication, modem AT command, GNSS, or LTE behavior has been implemented yet.
+The MCP2515 module remains in the repository for historical Revision A bench reference only. It is deprecated for the main ESP32 vehicle CAN path and is not registered as the active Module Manager vehicle CAN module.
+
+No CAN frame reading, OBD-II, vehicle communication, modem AT command, GNSS, or LTE behavior has been implemented yet.
 
 See [BUILD.md](BUILD.md) for compile, upload, and monitor commands.

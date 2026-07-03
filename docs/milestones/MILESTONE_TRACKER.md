@@ -13,6 +13,7 @@
 | 0.9 | First external hardware detection | Add BuildInfo and verify ESP32-to-MCP2515 SPI communication without CAN frame reading. | Complete |
 | 0.10 | MCP2515 electrical validation | Harden MCP2515 SPI detection with retry logic and detailed electrical validation logs before applying VCC. | Complete |
 | 0.10.1 | FleetLink naming and hardware revision update | Introduce FleetLink device naming, document hardware revisions, and choose ESP32 TWAI + SN65HVD230 for the main CAN path. | Complete |
+| 0.11 | FleetLink TWAI CAN architecture pivot | Register ESP32 TWAI + SN65HVD230 as the active vehicle CAN foundation while keeping MCP2515/SPI historical. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
 ## Version 0.1 Acceptance Criteria
@@ -150,3 +151,20 @@
 - Engineering decision is documented: use ESP32 built-in TWAI + SN65HVD230 instead of MCP2515 for the main vehicle CAN path.
 - MCP2515 is marked deprecated for the ESP32 prototype main CAN path due to 5V logic compatibility risk.
 - No firmware behavior, SIM7600 code, or CAN code has been added.
+
+## Version 0.11 Acceptance Criteria
+
+- Working directory is confirmed as `/Users/Nik/Documents/FleetTrackerV1`.
+- Firmware version is `0.11.0-dev`.
+- `CanInterface` exists as the controller-neutral CAN abstraction.
+- `TwaiCanInterface` exists as the ESP32 TWAI implementation.
+- `TwaiCanInterface` supports `Initialize()`, `Update()`, `GetName()`, `GetStatus()`, `GetLastError()`, and `IsInitialized()`.
+- `TwaiCanInterface` is registered with Module Manager as the active vehicle CAN module.
+- MCP2515 files remain in the repository for historical Revision A bench reference.
+- `Mcp2515Module` is not registered as the active vehicle CAN module.
+- SPI service remains in the repository but is documented as no longer the primary vehicle CAN path.
+- Planned SN65HVD230 wiring is documented: 3.3V to ESP32 3V3, GND to ESP32 GND, CTX to GPIO21, CRX to GPIO22, CANH to vehicle CAN High later, and CANL to vehicle CAN Low later.
+- Startup logs include TWAI initialization, TX GPIO 21, RX GPIO 22, and success or failure.
+- Firmware continues running if TWAI initialization fails.
+- No vehicle connection, CAN frame reading, OBD-II decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.

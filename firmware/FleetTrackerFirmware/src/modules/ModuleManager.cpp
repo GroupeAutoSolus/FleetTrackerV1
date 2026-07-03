@@ -2,7 +2,7 @@
 
 #include <cstdio>
 
-#include "../hardware/mcp2515/Mcp2515Module.h"
+#include "../hardware/can/TwaiCanInterface.h"
 
 namespace {
 
@@ -10,9 +10,9 @@ bool initialized = false;
 StatusCode status = StatusCode::NotInitialized;
 StatusCode lastError = StatusCode::Ok;
 char statusSummary[128] = {};
-Mcp2515Module mcp2515Module;
+TwaiCanInterface vehicleCanModule;
 Module* modules[] = {
-    &mcp2515Module,
+    &vehicleCanModule,
 };
 
 constexpr int kModuleCount = sizeof(modules) / sizeof(modules[0]);

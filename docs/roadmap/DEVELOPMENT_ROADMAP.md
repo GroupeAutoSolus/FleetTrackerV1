@@ -30,6 +30,7 @@
 - Add BuildInfo firmware metadata.
 - Keep MCP2515 limited to deprecated Revision A bench experiments unless explicitly revisited.
 - Pivot active FleetLink vehicle CAN foundation to ESP32 TWAI plus SN65HVD230.
+- Add safe TWAI raw receive scaffolding with default-disabled raw frame logs.
 - Add LTE modem service boundaries.
 - Validate SIM7600 serial communication.
 - Validate SIM state, signal quality, network registration, and data sessions.
@@ -40,7 +41,7 @@
 
 - Validate SN65HVD230 wiring and ESP32 TWAI configuration.
 - Add CAN bus service boundaries around ESP32 TWAI.
-- Add CAN frame receive handling after TWAI electrical validation.
+- Add controlled CAN frame receive validation after a dedicated vehicle or bench-bus test milestone.
 - Add OBD-II service boundaries.
 - Read selected vehicle PIDs in controlled tests.
 - Add diagnostic trouble code, ignition state, trip event, and odometer source handling.

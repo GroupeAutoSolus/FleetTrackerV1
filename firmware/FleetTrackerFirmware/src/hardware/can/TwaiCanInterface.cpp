@@ -4,17 +4,41 @@
 #include <driver/twai.h>
 #include <cstdio>
 
+#include "../../configuration/Configuration.h"
 #include "../../logging/Logger.h"
 
 namespace {
 
 constexpr gpio_num_t kTwaiTxGpio = GPIO_NUM_21;
 constexpr gpio_num_t kTwaiRxGpio = GPIO_NUM_22;
-char logBuffer[64] = {};
+char logBuffer[160] = {};
 
 void LogPin(const char* label, gpio_num_t pin)
 {
     std::snprintf(logBuffer, sizeof(logBuffer), "%s=%d", label, static_cast<int>(pin));
+    Logger::Info(logBuffer);
+}
+
+void LogFrame(const twai_message_t& message)
+{
+    const int idWidth = (message.flags & TWAI_MSG_FLAG_EXTD) ? 8 : 3;
+    int written = std::snprintf(
+        logBuffer,
+        sizeof(logBuffer),
+        "CAN ID=0x%0*lX DLC=%u DATA=",
+        idWidth,
+        static_cast<unsigned long>(message.identifier),
+        static_cast<unsigned int>(message.data_length_code));
+
+    for (uint8_t i = 0; i < message.data_length_code && i < TWAI_FRAME_MAX_DLC && written > 0 && written < static_cast<int>(sizeof(logBuffer)); ++i) {
+        written += std::snprintf(
+            logBuffer + written,
+            sizeof(logBuffer) - static_cast<size_t>(written),
+            "%s%02X",
+            i == 0 ? "" : " ",
+            message.data[i]);
+    }
+
     Logger::Info(logBuffer);
 }
 
@@ -25,6 +49,8 @@ void TwaiCanInterface::Initialize()
     Logger::Info("Initializing TWAI CAN interface...");
     LogPin("TWAI TX GPIO", kTwaiTxGpio);
     LogPin("TWAI RX GPIO", kTwaiRxGpio);
+    Logger::Info("TWAI receive scaffold enabled");
+    Logger::Warn("CANH/CANL must remain disconnected until vehicle test milestone");
 
     twai_general_config_t generalConfig = TWAI_GENERAL_CONFIG_DEFAULT(
         kTwaiTxGpio,
@@ -61,7 +87,15 @@ void TwaiCanInterface::Initialize()
 
 void TwaiCanInterface::Update()
 {
-    // No CAN frame reading in this milestone.
+    if (!initialized) {
+        return;
+    }
+
+    twai_message_t message = {};
+    const esp_err_t result = twai_receive(&message, 0);
+    if (result == ESP_OK && Configuration::Current().rawCanLoggingEnabled) {
+        LogFrame(message);
+    }
 }
 
 const char* TwaiCanInterface::GetName() const

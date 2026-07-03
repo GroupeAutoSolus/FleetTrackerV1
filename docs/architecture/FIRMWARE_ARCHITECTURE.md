@@ -93,7 +93,7 @@ Current active CAN foundation:
 | Interface | Implementation | Purpose |
 | --- | --- | --- |
 | `CanInterface` | Abstract base | Keep higher-level vehicle code independent from a specific CAN controller. |
-| `TwaiCanInterface` | ESP32 TWAI | Initialize the ESP32 built-in TWAI driver with the planned SN65HVD230 pins. |
+| `TwaiCanInterface` | ESP32 TWAI | Initialize the ESP32 built-in TWAI driver and poll for raw frames with the planned SN65HVD230 pins. |
 
 Planned SN65HVD230 wiring:
 
@@ -106,7 +106,15 @@ Planned SN65HVD230 wiring:
 | CANH | Vehicle CAN High later |
 | CANL | Vehicle CAN Low later |
 
-For v0.11.0, `TwaiCanInterface` initializes the TWAI driver only. It does not read CAN frames, connect to a vehicle, decode OBD-II, or publish vehicle telemetry. Firmware boot continues if TWAI initialization fails.
+For v0.12.0, `TwaiCanInterface` polls TWAI receive with a zero-timeout call during `Update()`. If no frame is available, it emits no log line. Raw frame logging is controlled by `Configuration::Current().rawCanLoggingEnabled` and defaults to disabled.
+
+When raw CAN logging is enabled, received frames are logged with:
+
+- CAN ID
+- DLC
+- data bytes in hex
+
+This is a raw receive scaffold only. CANH/CANL must remain disconnected until the vehicle test milestone. The firmware does not decode OBD-II PIDs, detect VIN, publish vehicle telemetry, or depend on a connected CAN bus. Firmware boot continues if TWAI initialization fails, and the update loop continues normally if no CAN bus is connected.
 
 ### OBD-II
 
@@ -118,7 +126,7 @@ Responsible for device-to-cloud communication. Future responsibilities include t
 
 ### Configuration
 
-Responsible for configuration ownership. Future responsibilities include defaults, validation, persistent settings, device identity, and environment-specific build options.
+Responsible for configuration ownership. Current settings include device ID, heartbeat interval, and `rawCanLoggingEnabled`, which defaults to disabled. Future responsibilities include defaults, validation, persistent settings, device identity, and environment-specific build options.
 
 ### Logging
 

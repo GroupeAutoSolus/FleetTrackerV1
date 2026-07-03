@@ -14,6 +14,7 @@
 | 0.10 | MCP2515 electrical validation | Harden MCP2515 SPI detection with retry logic and detailed electrical validation logs before applying VCC. | Complete |
 | 0.10.1 | FleetLink naming and hardware revision update | Introduce FleetLink device naming, document hardware revisions, and choose ESP32 TWAI + SN65HVD230 for the main CAN path. | Complete |
 | 0.11 | FleetLink TWAI CAN architecture pivot | Register ESP32 TWAI + SN65HVD230 as the active vehicle CAN foundation while keeping MCP2515/SPI historical. | Complete |
+| 0.12 | TWAI raw CAN receive scaffold | Add safe nonblocking TWAI receive polling and default-disabled raw frame logging without vehicle connection or OBD-II decoding. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
 ## Version 0.1 Acceptance Criteria
@@ -167,4 +168,19 @@
 - Startup logs include TWAI initialization, TX GPIO 21, RX GPIO 22, and success or failure.
 - Firmware continues running if TWAI initialization fails.
 - No vehicle connection, CAN frame reading, OBD-II decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
+- Firmware compiles successfully with `./tools/firmware/compile.sh`.
+
+## Version 0.12 Acceptance Criteria
+
+- Working directory is confirmed as `/Users/Nik/Documents/FleetTrackerV1`.
+- Firmware version is `0.12.0-dev`.
+- `TwaiCanInterface::Update()` polls TWAI receive with no blocking wait.
+- No-frame receive cycles do not emit log spam.
+- Raw CAN frame logging is controlled by a configurable flag and defaults to disabled.
+- When raw CAN logging is enabled and a frame is received, logs include CAN ID, DLC, and data bytes in hex.
+- Startup logs include `TWAI receive scaffold enabled`.
+- Startup logs include `CANH/CANL must remain disconnected until vehicle test milestone`.
+- Firmware continues running normally when no CAN bus is connected.
+- CANH/CANL remain disconnected for this milestone.
+- No OBD-II PID decoding, VIN detection, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.

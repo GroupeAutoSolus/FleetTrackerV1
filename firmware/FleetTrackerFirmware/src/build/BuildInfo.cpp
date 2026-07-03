@@ -4,7 +4,7 @@ namespace BuildInfo {
 
 const char* GetFirmwareVersion()
 {
-    return "0.11.0-dev";
+    return "0.12.0-dev";
 }
 
 const char* GetGitCommit()

@@ -31,3 +31,5 @@ Planned default wiring:
 | CANL | Vehicle CAN Low later |
 
 Do not connect to a vehicle CAN bus until TWAI bench validation is complete.
+
+Milestone v0.12.0 adds raw TWAI receive polling in firmware only. CANH/CANL must remain disconnected until the vehicle test milestone, and no OBD-II decoding or VIN detection is present.

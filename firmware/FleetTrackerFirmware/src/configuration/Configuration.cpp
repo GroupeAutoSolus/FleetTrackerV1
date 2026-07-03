@@ -5,6 +5,7 @@ namespace {
 Configuration::Settings settings = {
     "GAS-ST-PROTOTYPE-001",
     2000,
+    false,
     "",
     "",
 };

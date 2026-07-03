@@ -73,3 +73,11 @@ Pivoted the active FleetLink vehicle CAN firmware architecture from MCP2515/SPI 
 `TwaiCanInterface` is registered with Module Manager as the active vehicle CAN module. It logs the planned TX/RX pins, initializes the TWAI driver, reports success or failure, and allows firmware boot to continue if initialization fails.
 
 MCP2515 files and the SPI service remain in the repository for historical Revision A bench reference, but MCP2515 is no longer registered as the active CAN path. No vehicle connection, CAN frame reading, OBD-II decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code was added.
+
+## 2026-07-02 - Milestone v0.12.0: TWAI Raw CAN Receive Scaffold
+
+Added safe TWAI receive polling to `TwaiCanInterface::Update()` without connecting FleetLink CANH/CANL to a vehicle and without decoding OBD-II.
+
+Raw CAN frame logging is configurable through `rawCanLoggingEnabled` and defaults to disabled. When enabled, received frames are logged with CAN ID, DLC, and data bytes in hex. When no frame is available, no log line is emitted.
+
+Startup now warns that the TWAI receive scaffold is enabled and that CANH/CANL must remain disconnected until the vehicle test milestone. No OBD-II PID decoding, VIN detection, SIM7600, GPS, LTE, backend, or dashboard behavior was added.

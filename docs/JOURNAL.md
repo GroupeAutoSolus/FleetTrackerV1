@@ -74,13 +74,13 @@ Pivoted the active FleetLink vehicle CAN firmware architecture from MCP2515/SPI 
 
 MCP2515 files and the SPI service remain in the repository for historical Revision A bench reference, but MCP2515 is no longer registered as the active CAN path. No vehicle connection, CAN frame reading, OBD-II decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code was added.
 
-## 2026-07-02 - Milestone v0.12.0: TWAI Raw CAN Receive Scaffold
+## 2026-07-02 - Milestone v0.12.0: VehicleBusService TWAI Initialization
 
-Added safe TWAI receive polling to `TwaiCanInterface::Update()` without connecting FleetLink CANH/CANL to a vehicle and without decoding OBD-II.
+Added `VehicleBusService` as the active Revision B vehicle bus abstraction and registered it with Module Manager.
 
-Raw CAN frame logging is configurable through `rawCanLoggingEnabled` and defaults to disabled. When enabled, received frames are logged with CAN ID, DLC, and data bytes in hex. When no frame is available, no log line is emitted.
+`VehicleBusService` initializes the ESP32 TWAI driver with TX GPIO21, RX GPIO22, 500 kbps timing, and normal mode. Startup logs report the service initialization, TWAI pins, bitrate, and success or error details.
 
-Startup now warns that the TWAI receive scaffold is enabled and that CANH/CANL must remain disconnected until the vehicle test milestone. No OBD-II PID decoding, VIN detection, SIM7600, GPS, LTE, backend, or dashboard behavior was added.
+Firmware continues running if TWAI initialization fails. CANH/CANL remain disconnected for this milestone. No OBD-II PID requests, DTC reading, passive CAN decoding, SIM7600, GPS, LTE, backend, or dashboard behavior was added.
 
 ## 2026-07-02 - Milestone v0.11.0 Hardware Addendum: FleetLink Revision B Architecture
 

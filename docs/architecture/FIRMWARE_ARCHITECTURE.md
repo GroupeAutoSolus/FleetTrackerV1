@@ -32,8 +32,9 @@ Phase 1 establishes the compiled firmware foundation inside `firmware/FleetTrack
 | `Diagnostics` | Reports firmware version, device ID, uptime, free heap, reset reason, boot status, and module health summary. |
 | `ModuleManager` | Provides the future registration/update/status foundation for hardware and service modules. |
 | `StatusCode` | Provides lightweight shared status and error-code conventions. |
+| `VehicleBusService` | Active Revision B vehicle bus service. Initializes ESP32 TWAI at 500 kbps. |
 | `CanInterface` | Controller-neutral vehicle CAN module abstraction. |
-| `TwaiCanInterface` | Active ESP32 TWAI vehicle CAN implementation. Initializes the TWAI driver only. |
+| `TwaiCanInterface` | Earlier ESP32 TWAI vehicle CAN implementation retained for reference. Not registered as the active module. |
 | `Mcp2515Module` | Deprecated MCP2515 SPI detection module retained for historical Revision A bench reference. |
 
 ## Module Manager Foundation
@@ -47,7 +48,7 @@ Future firmware modules should support:
 - `GetLastError()`
 - `IsInitialized()`
 
-Milestone v0.11.0 registers `TwaiCanInterface` as the active vehicle CAN module. `Mcp2515Module` remains in the repository but is not registered as the active CAN path.
+Milestone v0.12.0 registers `VehicleBusService` as the active vehicle bus module. `TwaiCanInterface` and `Mcp2515Module` remain in the repository but are not registered as the active CAN path.
 
 Module status summaries should include:
 
@@ -90,31 +91,31 @@ MCP2515 is deprecated for the main ESP32 prototype CAN path because many MCP2515
 
 Current active CAN foundation:
 
-| Interface | Implementation | Purpose |
+| Service | Implementation | Purpose |
 | --- | --- | --- |
-| `CanInterface` | Abstract base | Keep higher-level vehicle code independent from a specific CAN controller. |
-| `TwaiCanInterface` | ESP32 TWAI | Initialize the ESP32 built-in TWAI driver and poll for raw frames with the planned SN65HVD230 pins. |
+| `VehicleBusService` | ESP32 TWAI | Initialize the ESP32 built-in TWAI driver for FleetLink Revision B. |
 
-Planned SN65HVD230 wiring:
+TWAI configuration:
 
-| SN65HVD230 | ESP32 / Later Vehicle Connection |
+| Setting | Value |
+| --- | --- |
+| TX | GPIO21 |
+| RX | GPIO22 |
+| Bitrate | 500000 |
+| Mode | Normal |
+
+Revision B SN65HVD230 wiring for this milestone:
+
+| SN65HVD230 | ESP32 / Vehicle |
 | --- | --- |
 | 3.3V | ESP32 3V3 |
 | GND | ESP32 GND |
 | CTX | ESP32 GPIO21 |
 | CRX | ESP32 GPIO22 |
-| CANH | Vehicle CAN High later |
-| CANL | Vehicle CAN Low later |
+| CANH | Not connected yet |
+| CANL | Not connected yet |
 
-For v0.12.0, `TwaiCanInterface` polls TWAI receive with a zero-timeout call during `Update()`. If no frame is available, it emits no log line. Raw frame logging is controlled by `Configuration::Current().rawCanLoggingEnabled` and defaults to disabled.
-
-When raw CAN logging is enabled, received frames are logged with:
-
-- CAN ID
-- DLC
-- data bytes in hex
-
-This is a raw receive scaffold only. CANH/CANL must remain disconnected until the vehicle test milestone. The firmware does not decode OBD-II PIDs, detect VIN, publish vehicle telemetry, or depend on a connected CAN bus. Firmware boot continues if TWAI initialization fails, and the update loop continues normally if no CAN bus is connected.
+For v0.12.0, `VehicleBusService` initializes TWAI only. It does not request OBD-II PIDs, read DTCs, decode passive CAN frames, publish vehicle telemetry, initialize SIM7600, initialize GPS/GNSS, initialize LTE, or depend on a connected CAN bus. Firmware boot continues if TWAI initialization fails.
 
 ### OBD-II
 

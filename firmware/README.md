@@ -27,6 +27,8 @@ firmware/
                              Arduino/ESP32 timing abstraction.
   FleetTrackerFirmware/src/platform/spi/
                              SPI service foundation for future peripherals, no longer the primary vehicle CAN path.
+  FleetTrackerFirmware/src/services/vehicle_bus/
+                             Vehicle bus service using ESP32 TWAI for Revision B CAN initialization.
   FleetTrackerFirmware/src/status/
                              Shared firmware status/error code conventions.
   include/FleetTracker/      Public firmware interfaces shared across modules.
@@ -55,7 +57,7 @@ firmware/
 
 ## Current Status
 
-Milestone v0.12.0 adds safe TWAI raw CAN receive scaffolding under `firmware/FleetTrackerFirmware`.
+Milestone v0.12.0 adds `VehicleBusService` as the active Revision B vehicle bus abstraction under `firmware/FleetTrackerFirmware`.
 
 The Arduino `.ino` entry point delegates to `Application::Initialize()` and `Application::Update()`. BuildInfo owns firmware build metadata. Platform owns Arduino timing and ESP32 framework diagnostics calls. SpiService owns SPI bus initialization for non-primary SPI peripherals and historical MCP2515 bench reference. Logger owns serial output. Configuration owns early runtime settings. Diagnostics owns boot/runtime health reporting. Module Manager owns module lifecycle/status coordination. StatusCode owns shared status/error naming. Application owns orchestration.
 
@@ -70,14 +72,17 @@ Default SN65HVD230 wiring plan:
 | CANH | Vehicle CAN High later |
 | CANL | Vehicle CAN Low later |
 
-`CanInterface` is the controller-neutral vehicle CAN abstraction. `TwaiCanInterface` is the active implementation registered with Module Manager. It initializes the ESP32 TWAI driver and polls for received TWAI frames without blocking the firmware update loop.
+`VehicleBusService` is registered with Module Manager as the active vehicle bus module. It initializes the ESP32 TWAI driver with TX GPIO21, RX GPIO22, 500 kbps timing, and normal mode.
 
-Raw CAN frame logging is controlled by `Configuration::Current().rawCanLoggingEnabled` and defaults to disabled. When enabled, received frames are logged as CAN ID, DLC, and hex data bytes. When no frame is available, no log line is emitted.
+The service initializes TWAI only. It does not request OBD-II PIDs, read DTCs, decode passive CAN traffic, initialize SIM7600, initialize GPS/GNSS, initialize LTE, or communicate with backend/dashboard services.
 
 Startup logs include:
 
-- `TWAI receive scaffold enabled`
-- `CANH/CANL must remain disconnected until vehicle test milestone`
+- `VehicleBusService initializing`
+- `TWAI TX GPIO21`
+- `TWAI RX GPIO22`
+- `TWAI bitrate 500000`
+- `TWAI initialized successfully` or TWAI error details
 
 Default ESP32 SPI pin configuration:
 

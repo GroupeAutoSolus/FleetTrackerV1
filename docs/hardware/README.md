@@ -74,3 +74,5 @@ SIM7600 serial:
 4. OBD-II CANH/CANL test with no OBD power.
 5. Buck converter test standalone.
 6. Full OBD power test later.
+
+For the VehicleBusService TWAI initialization milestone, CANH/CANL remain disconnected. The firmware initializes ESP32 TWAI at 500 kbps on TX GPIO21 and RX GPIO22 only.

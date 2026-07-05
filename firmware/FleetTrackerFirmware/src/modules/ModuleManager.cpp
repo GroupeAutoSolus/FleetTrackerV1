@@ -2,7 +2,7 @@
 
 #include <cstdio>
 
-#include "../hardware/can/TwaiCanInterface.h"
+#include "../services/vehicle_bus/VehicleBusService.h"
 
 namespace {
 
@@ -10,9 +10,9 @@ bool initialized = false;
 StatusCode status = StatusCode::NotInitialized;
 StatusCode lastError = StatusCode::Ok;
 char statusSummary[128] = {};
-TwaiCanInterface vehicleCanModule;
+VehicleBusService vehicleBusService;
 Module* modules[] = {
-    &vehicleCanModule,
+    &vehicleBusService,
 };
 
 constexpr int kModuleCount = sizeof(modules) / sizeof(modules[0]);

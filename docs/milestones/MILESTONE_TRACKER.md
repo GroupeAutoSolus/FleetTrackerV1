@@ -15,7 +15,7 @@
 | 0.10.1 | FleetLink naming and hardware revision update | Introduce FleetLink device naming, document hardware revisions, and choose ESP32 TWAI + SN65HVD230 for the main CAN path. | Complete |
 | 0.11 | FleetLink TWAI CAN architecture pivot | Register ESP32 TWAI + SN65HVD230 as the active vehicle CAN foundation while keeping MCP2515/SPI historical. | Complete |
 | 0.11-hw | FleetLink Revision B hardware architecture | Document the official Revision B wiring plan, safety warnings, and bench-test sequence before more firmware behavior. | Complete |
-| 0.12 | TWAI raw CAN receive scaffold | Add safe nonblocking TWAI receive polling and default-disabled raw frame logging without vehicle connection or OBD-II decoding. | Complete |
+| 0.12 | VehicleBusService TWAI initialization | Initialize ESP32 TWAI through VehicleBusService for Revision B without OBD-II, passive CAN decoding, SIM7600, GPS, LTE, backend, or dashboard behavior. | Complete |
 | 1.0 | Commercial baseline | Stable firmware/backend/dashboard release with documentation and support procedures. | Planned |
 
 ## Version 0.1 Acceptance Criteria
@@ -183,13 +183,12 @@
 
 - Working directory is confirmed as `/Users/Nik/Documents/FleetTrackerV1`.
 - Firmware version is `0.12.0-dev`.
-- `TwaiCanInterface::Update()` polls TWAI receive with no blocking wait.
-- No-frame receive cycles do not emit log spam.
-- Raw CAN frame logging is controlled by a configurable flag and defaults to disabled.
-- When raw CAN logging is enabled and a frame is received, logs include CAN ID, DLC, and data bytes in hex.
-- Startup logs include `TWAI receive scaffold enabled`.
-- Startup logs include `CANH/CANL must remain disconnected until vehicle test milestone`.
-- Firmware continues running normally when no CAN bus is connected.
+- `VehicleBusService` exists as the active Revision B vehicle bus abstraction.
+- `VehicleBusService` internally uses the ESP32 TWAI driver.
+- `VehicleBusService` is registered with Module Manager.
+- TWAI uses TX GPIO21, RX GPIO22, 500 kbps default bitrate, and normal mode.
+- Startup logs include `VehicleBusService initializing`, `TWAI TX GPIO21`, `TWAI RX GPIO22`, `TWAI bitrate 500000`, and success or error details.
+- Firmware continues running normally if TWAI initialization fails.
 - CANH/CANL remain disconnected for this milestone.
-- No OBD-II PID decoding, VIN detection, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
+- No OBD-II PID requests, DTC reading, passive CAN decoding, SIM7600 code, GPS code, LTE code, backend code, or dashboard code has been added.
 - Firmware compiles successfully with `./tools/firmware/compile.sh`.

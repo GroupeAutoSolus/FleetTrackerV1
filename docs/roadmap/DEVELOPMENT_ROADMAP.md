@@ -31,7 +31,7 @@
 - Keep MCP2515 limited to deprecated Revision A bench experiments unless explicitly revisited.
 - Pivot active FleetLink vehicle CAN foundation to ESP32 TWAI plus SN65HVD230.
 - Document official FleetLink Revision B hardware architecture and wiring plan before more firmware behavior.
-- Add safe TWAI raw receive scaffolding with default-disabled raw frame logs.
+- Add VehicleBusService as the active ESP32 TWAI initialization boundary.
 - Add LTE modem service boundaries.
 - Validate SIM7600 serial communication.
 - Validate SIM state, signal quality, network registration, and data sessions.

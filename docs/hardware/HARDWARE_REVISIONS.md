@@ -88,6 +88,8 @@ SIM7600 serial:
 5. Test the buck converter standalone from a controlled 12V source.
 6. Run the full OBD power test later, after USB, TWAI, CANH/CANL, and buck converter checks pass.
 
+VehicleBusService milestone rule: CANH/CANL remain disconnected while firmware validates ESP32 TWAI initialization at 500 kbps on TX GPIO21 and RX GPIO22.
+
 Rationale:
 
 - ESP32 already includes a CAN-compatible TWAI controller.
